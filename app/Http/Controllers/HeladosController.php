@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Producto;
 
 class HeladosController extends Controller
 {
-    public function webhelados(){
-        return view('helados');
+    public function webhelados()
+    {
+        $productos = Producto::where('categoria', 'helados')->get();
+        return view('categoria', [
+            'productos' => $productos,
+            'titulo'    => 'Helados',
+        ]);
     }
 }

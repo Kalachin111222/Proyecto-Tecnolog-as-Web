@@ -20,8 +20,6 @@ Plataforma de compras online que permite explorar y agregar al carrito productos
 ```bash
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
-php artisan migrate
 npm install
 composer run dev
 ```

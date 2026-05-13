@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Producto;
 
 class DespensaController extends Controller
 {
-    public function webdespensa(){
-        return view('despensa');
+    public function webdespensa()
+    {
+        $productos = Producto::where('categoria', 'despensa')->get();
+        return view('categoria', [
+            'productos' => $productos,
+            'titulo'    => 'Despensa',
+        ]);
     }
 }

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Producto;
 
 class AntojosController extends Controller
 {
-    public function webantojos(){
-        return view('antojos');
+    public function webantojos()
+    {
+        $productos = Producto::where('categoria', 'antojos')->get();
+        return view('categoria', [
+            'productos' => $productos,
+            'titulo'    => 'Antojos',
+        ]);
     }
 }

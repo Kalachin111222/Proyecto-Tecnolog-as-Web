@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Producto;
 
 class BebidasController extends Controller
 {
-    public function webbebidas(){
-        return view('bebidas');
+    public function webbebidas()
+    {
+        $productos = Producto::where('categoria', 'bebidas')->get();
+        return view('categoria', [
+            'productos' => $productos,
+            'titulo'    => 'Bebidas',
+        ]);
     }
 }
