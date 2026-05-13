@@ -4,7 +4,6 @@
 
 <main class="max-w-4xl mx-auto px-4 py-8">
 
-    {{-- Header --}}
     <div class="flex flex-col items-center gap-3 mb-8 p-6 rounded-2xl shadow-sm border"
          style="background-color: var(--bg-card); border-color: var(--border-color);">
         <div class="w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-md"
@@ -19,7 +18,6 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        {{-- Sección Idioma --}}
         <div class="rounded-xl shadow-sm border p-6"
              style="background-color: var(--bg-card); border-color: var(--border-color);">
             <h3 class="flex items-center gap-2 text-lg font-semibold mb-4"
@@ -31,7 +29,6 @@
                 <span data-translate="account.language">Idioma</span>
             </h3>
 
-            {{-- Mensaje guardado --}}
             <div id="languageSavedMessage"
                  class="hidden items-center gap-2 text-sm px-3 py-2 rounded-lg mb-4 border-l-4"
                  style="background-color: #dcfce7; color: #166534; border-color: #16a34a;">
@@ -66,7 +63,6 @@
             </div>
         </div>
 
-        {{-- Sección Información de la Cuenta --}}
         <div class="rounded-xl shadow-sm border p-6"
              style="background-color: var(--bg-card); border-color: var(--border-color);">
             <h3 class="flex items-center gap-2 text-lg font-semibold mb-4"
@@ -99,7 +95,6 @@
             </div>
         </div>
 
-        {{-- Sección Estadísticas --}}
         <div class="rounded-xl shadow-sm border p-6"
              style="background-color: var(--bg-card); border-color: var(--border-color);">
             <h3 class="flex items-center gap-2 text-lg font-semibold mb-4"
@@ -133,7 +128,6 @@
             </div>
         </div>
 
-        {{-- Sección Acciones de Cuenta --}}
         <div class="rounded-xl shadow-sm border p-6"
              style="background-color: var(--bg-card); border-color: var(--border-color);">
             <h3 class="flex items-center gap-2 text-lg font-semibold mb-4"
@@ -148,7 +142,6 @@
             </h3>
             <div class="grid grid-cols-2 gap-3">
 
-                {{-- Ver Carrito --}}
                 <button onclick="verCarrito()"
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                     style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
@@ -160,7 +153,6 @@
                     <span data-translate="account.viewCart">Ver Carrito</span>
                 </button>
 
-                {{-- Limpiar Datos --}}
                 <button onclick="limpiarDatos()"
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                     style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
@@ -172,7 +164,6 @@
                     <span data-translate="account.clearData">Limpiar Datos</span>
                 </button>
 
-                {{-- Exportar Datos --}}
                 <button onclick="exportarDatos()"
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                     style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
@@ -184,7 +175,6 @@
                     <span data-translate="account.exportData">Exportar Datos</span>
                 </button>
 
-                {{-- Modo Oscuro --}}
                 <button onclick="cambiarTema()"
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                     style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
@@ -199,7 +189,6 @@
             </div>
         </div>
 
-        {{-- Sección Configuración --}}
         <div class="rounded-xl shadow-sm border p-6 md:col-span-2"
              style="background-color: var(--bg-card); border-color: var(--border-color);">
             <h3 class="flex items-center gap-2 text-lg font-semibold mb-4"
@@ -237,7 +226,6 @@
 
     </div>
 
-    {{-- Footer --}}
     <div class="flex justify-center mt-8">
         <button
             onclick="cerrarSesion()"
