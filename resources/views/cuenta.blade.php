@@ -1,5 +1,5 @@
 @extends('layout.plantilla')
-
+@section('title', 'Cuenta - D\'Ennita')
 @section('contenido')
 
 <main class="max-w-4xl mx-auto px-4 py-8">

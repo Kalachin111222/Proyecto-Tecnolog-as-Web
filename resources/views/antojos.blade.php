@@ -1,5 +1,5 @@
 @extends('layout.plantilla')
-
+@section('title', 'Antojos - D\'Ennita')
 @section('contenido')
 
     <main class="p-5 flex-grow flex flex-col" style="background-color: var(--bg-secondary);">

@@ -1,5 +1,5 @@
 @extends('layout.plantilla')
-
+@section('title', 'Bebidas Alcoholicas - D\'Ennita')
 @section('contenido')
     <main class="p-5 flex-grow flex flex-col" style="background-color: var(--bg-secondary);">
         <div class="max-w-screen-xl mx-auto w-full">

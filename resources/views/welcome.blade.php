@@ -1,4 +1,5 @@
 @extends('layout.plantilla')
+@section('title', 'D\'Ennita')
 
 @section('contenido')
 <section class="w-full overflow-hidden relative carousel-pause z-10 !h-64 md:!h-96 lg:!h-[600px]" id="carousel">

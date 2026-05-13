@@ -1,5 +1,5 @@
 @extends('layout.plantilla')
-
+@section('title', 'Carrito - D\'Ennita')
 @section('contenido')
 
     <main class="carrito-contenedor">
