@@ -1250,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usuarioActivo = localStorage.getItem('usuarioActivo');
     const currentPath = window.location.pathname;
     
-    /* if (!usuarioActivo && currentPath !== '/login') {
+     if (!usuarioActivo && currentPath !== '/login') {
         window.location.href = '/login';
         return;
     }
@@ -1262,11 +1262,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (usuarioActivo) {
         actualizarUsuarioHeader(usuarioActivo);
-    } */
+    }
     
     actualizarTotalCarrito();
     
-    /* if (currentPath === '/login') {
+    if (currentPath === '/login') {
         inicializarLogin();
     } else if (currentPath === '/carrito') {
         cargarCarrito();
@@ -1274,7 +1274,8 @@ document.addEventListener('DOMContentLoaded', function() {
         cargarDatosCuenta();
     } else {
         inicializarProductos();
-    } */
+    }
+
     const hamburgerBtn   = document.getElementById('hamburgerBtn');
     const hamburgerMenu  = document.getElementById('hamburgerMenu');
     const closeMenuBtn   = document.getElementById('closeMenuBtn');
@@ -1661,3 +1662,7 @@ function inicializarGoogleLogin() {
         });
     }
 }
+
+window.cambiarCantidad = cambiarCantidad;
+window.eliminarItem = eliminarItem;
+window.vaciarCarrito = vaciarCarrito;
