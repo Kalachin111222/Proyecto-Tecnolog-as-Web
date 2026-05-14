@@ -46,6 +46,70 @@
             </div>
         </div>
     </section>
+
+    <div class="navegador flex justify-center items-center mt-6 mb-12 overflow-x-auto transition-all duration-300 ease-in-out max-md:hidden" id="navegador" style="background-color: var(--bg-primary); ">
+        <nav>
+            <ul class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 p-2 list-none">
+                
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Inicio.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.home">Inicio</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('cervezas') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Cervezas.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.beers">Cervezas</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('licores') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Licores.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.liquors">Licores</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('comidas') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Comidas.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.food">Comidas</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('bebidas') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Bebidas.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.drinks">Bebidas</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('antojos') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Antojos.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.snacks">Antojos</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{ route('helados') }}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Helados.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.icecream">Helados</span>
+                    </a>
+                </li>
+
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{route('despensa')}}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/Despensa.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.pantry">Despensa</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
     
     <main class="p-5 flex-grow flex flex-col" style="background-color: var(--bg-secondary);">
         <div class="max-w-screen-xl mx-auto w-full">
