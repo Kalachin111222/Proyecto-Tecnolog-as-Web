@@ -45,7 +45,7 @@
 
                 <button
                     onclick="agregarAlCarrito('{{ addslashes($producto->nombre) }}', {{ $producto->precio }})"
-                    class="mt-2 px-6 py-3 rounded-full font-bold text-black text-base transition hover:brightness-90 w-fit"
+                    class="mt-2 px-6 py-3 rounded-full font-bold text-black text-base transition hover:brightness-90 w-fit "
                     style="background-color: var(--btnAgregar);">
                     + Agregar al carrito
                 </button>

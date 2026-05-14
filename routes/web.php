@@ -12,19 +12,29 @@ use App\Http\Controllers\AntojosController;
 use App\Http\Controllers\HeladosController;
 use App\Http\Controllers\DespensaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ModeradorController;
 use App\Models\Producto;
 
 Route::get('/', function () {
     $categorias = ['cervezas', 'licores', 'comidas', 'bebidas', 'antojos', 'helados', 'despensa'];
-
     $productosPorCategoria = collect($categorias)->mapWithKeys(function ($cat) {
         return [$cat => Producto::where('categoria', $cat)->get()];
     });
-
     return view('welcome', compact('productosPorCategoria'));
 })->name('inicio');
 
-Route::get('/login',    [AuthController::class,   'weblogin'])->name('login');
+// Auth
+Route::get('/login',  [AuthController::class, 'weblogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Moderador
+Route::get('/moderador',             [ModeradorController::class, 'index'])->name('moderador');
+Route::post('/moderador/productos',  [ModeradorController::class, 'store'])->name('moderador.store');
+Route::put('/moderador/productos/{id}',    [ModeradorController::class, 'update'])->name('moderador.update');
+Route::delete('/moderador/productos/{id}', [ModeradorController::class, 'destroy'])->name('moderador.destroy');
+
+// Páginas
 Route::get('/carrito',  [CarritoController::class, 'webcarrito'])->name('carrito');
 Route::get('/cuenta',   [CuentaController::class,  'webcuenta'])->name('cuenta');
 

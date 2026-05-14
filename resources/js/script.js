@@ -1247,28 +1247,11 @@ class ConnectionMonitor {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const usuarioActivo = localStorage.getItem('usuarioActivo');
     const currentPath = window.location.pathname;
-    
-     if (!usuarioActivo && currentPath !== '/login') {
-        window.location.href = '/login';
-        return;
-    }
-    
-    if (usuarioActivo && currentPath === '/login') {
-        window.location.href = '/';
-        return;
-    }
-    
-    if (usuarioActivo) {
-        actualizarUsuarioHeader(usuarioActivo);
-    }
     
     actualizarTotalCarrito();
     
-    if (currentPath === '/login') {
-        inicializarLogin();
-    } else if (currentPath === '/carrito') {
+    if (currentPath === '/carrito') {
         cargarCarrito();
     } else if (currentPath === '/cuenta') {
         cargarDatosCuenta();
@@ -1310,18 +1293,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Escape') closeMenu();
     });
 });
-
-function inicializarLogin() {
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-        });
-    }
-    
-    // Agregar esta línea
-    inicializarGoogleLogin();
-}
 
 function actualizarUsuarioHeader(usuario) {
     const usuarioInfo = document.getElementById('usuario-info');
@@ -1404,6 +1375,7 @@ function actualizarTotalCarrito() {
 function inicializarProductos() {
     const productosTailwind = document.querySelectorAll('.grid > div.p-4');
     
+    
     productosTailwind.forEach(producto => {
         const botonAgregar = producto.querySelector('button[aria-label="Añadir"]');
         
@@ -1433,6 +1405,18 @@ function inicializarProductos() {
                 }
             });
         }
+        const botonDetalle = document.querySelector('button[aria-label="Añadir"][data-nombre]');
+        if (botonDetalle && !botonDetalle.dataset.initialized) {
+            botonDetalle.dataset.initialized = 'true';
+            botonDetalle.addEventListener('click', function() {
+                const nombre = botonDetalle.dataset.nombre;
+                const precio = parseFloat(botonDetalle.dataset.precio);
+                if (nombre && !isNaN(precio)) {
+                    agregarAlCarrito(nombre, precio);
+                }
+            });
+        }
+
     });
     
     const productosTradicional = document.querySelectorAll('.producto');
@@ -1666,6 +1650,7 @@ function inicializarGoogleLogin() {
 window.cambiarCantidad = cambiarCantidad;
 window.eliminarItem = eliminarItem;
 window.vaciarCarrito = vaciarCarrito;
+window.agregarAlCarrito = agregarAlCarrito;
 
 
 // Buscador con dropdown
@@ -1738,61 +1723,3 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
 });
 
 
-// Modal de producto
-const modal = document.createElement('div');
-modal.id = 'producto-modal';
-modal.style.cssText = `
-    display:none; position:fixed; inset:0; z-index:99999;
-    background:rgba(0,0,0,0.6); align-items:center; justify-content:center;
-`;
-modal.innerHTML = `
-    <div style="background:var(--bg-primary); border-radius:1rem; max-width:480px; width:90%;
-                padding:2rem; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.4);">
-        <button id="modal-cerrar" style="position:absolute; top:1rem; right:1rem; background:none;
-            border:none; font-size:1.5rem; cursor:pointer; color:var(--text-primary);">✕</button>
-        <img id="modal-img" src="" alt="" style="width:100%; max-height:280px; object-fit:contain; border-radius:0.5rem; margin-bottom:1rem;">
-        <h3 id="modal-nombre" style="color:var(--text-primary); font-size:1.1rem; margin-bottom:0.5rem;"></h3>
-        <p id="modal-precio" style="color:var(--text-primary); font-size:1.4rem; font-weight:bold; margin-bottom:1.5rem;"></p>
-        <button id="modal-agregar" style="width:100%; padding:0.75rem; border-radius:0.5rem; border:none;
-            background:var(--btnAgregar); color:#000; font-weight:bold; font-size:1rem; cursor:pointer;">
-            Agregar al carrito
-        </button>
-    </div>
-`;
-document.body.appendChild(modal);
-
-document.getElementById('modal-cerrar').addEventListener('click', () => modal.style.display = 'none');
-modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
-
-document.getElementById('modal-agregar').addEventListener('click', () => {
-    const nombre = document.getElementById('modal-nombre').textContent;
-    const precioTexto = document.getElementById('modal-precio').textContent.replace('S/', '').trim();
-    const precio = parseFloat(precioTexto);
-    if (nombre && !isNaN(precio)) {
-        agregarAlCarrito(nombre, precio);
-        modal.style.display = 'none';
-    }
-});
-
-function abrirModal(img, nombre, precio) {
-    document.getElementById('modal-img').src = img;
-    document.getElementById('modal-nombre').textContent = nombre;
-    document.getElementById('modal-precio').textContent = `S/ ${precio}`;
-    modal.style.display = 'flex';
-}
-window.abrirModal = abrirModal;
-
-// Click en producto abre modal
-document.querySelectorAll('.grid > div.p-4').forEach(producto => {
-    const img = producto.querySelector('img')?.src || '';
-    const nombre = producto.querySelector('p')?.textContent?.trim() || '';
-    const precio = producto.querySelector('span.font-bold')?.textContent?.replace('S/', '').trim() || '';
-
-    producto.style.cursor = 'pointer';
-    producto.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return; // no abrir si clickean el +
-        abrirModal(img, nombre, precio);
-    });
-});
