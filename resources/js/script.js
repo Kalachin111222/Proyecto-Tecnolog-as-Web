@@ -1303,7 +1303,16 @@ function actualizarUsuarioHeader(usuario) {
 
 function cerrarSesion() {
     localStorage.removeItem('usuarioActivo');
-    window.location.reload();
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/logout';
+    const csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = '_token';
+    csrf.value = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    form.appendChild(csrf);
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function obtenerCarrito() {

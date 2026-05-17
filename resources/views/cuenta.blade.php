@@ -227,15 +227,12 @@
     </div>
 
     <div class="flex justify-center mt-8">
-        <button
-            onclick="cerrarSesion()"
-            class="px-6 py-2 font-bold rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style="color: var(--btn-vaciar-bg); border-color: var(--btn-vaciar-bg);"
-            onmouseover="this.style.backgroundColor='var(--btn-vaciar-bg)'; this.style.color='#fff'"
-            onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--btn-vaciar-bg)'"
-            data-translate="account.logout">
-            Cerrar Sesión
-        </button>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="px-4 py-2 rounded-lg font-semibold text-white bg-red-600 hover:bg-red-700 transition">
+                Cerrar sesión
+            </button>
+        </form>
     </div>
 
 </main>
