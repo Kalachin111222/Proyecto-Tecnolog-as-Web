@@ -1301,7 +1301,7 @@ async function agregarAlCarrito(nombre, precio, productoId) {
     } else {
         const carrito = obtenerCarritoLocal();
         const existente = carrito.find(i => i.nombre === nombre);
-        if (existente) {
+        if (existente && existente.cantidad <= i.stock) {
             existente.cantidad += 1;
         } else {
             carrito.push({ nombre, precio: parseFloat(precio), cantidad: 1 });

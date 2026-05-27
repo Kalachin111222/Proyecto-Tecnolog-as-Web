@@ -6,7 +6,7 @@
         Integrantes
     </h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
         
         <div class="p-6 rounded-xl shadow-md text-center" style="background-color: var(--bg-card);">
             <h2 class="text-xl font-semibold" style="color: var(--text-primary);">Aguilar Meza Yolver</h2>

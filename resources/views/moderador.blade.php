@@ -40,8 +40,11 @@
                 <input type="number" name="precio" step="0.01" min="0" placeholder="Precio (S/)" required
                     class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
 
-                <input type="text" name="imagen" placeholder="Ruta de imagen (ej: imagenes/Productos/foto.png)" required
+                <input type="number" name="stock" min="0" placeholder="Stock (unidades)" required value="0"
                     class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+
+                <input type="text" name="imagen" placeholder="Ruta de imagen (ej: imagenes/Productos/foto.png)" required
+                    class="p-3 rounded-xl border-2 focus:outline-none md:col-span-2" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
 
                 <textarea name="descripcion" placeholder="Descripción del producto" rows="2"
                     class="p-3 rounded-xl border-2 focus:outline-none md:col-span-2" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></textarea>
@@ -63,6 +66,7 @@
                         <th class="p-3 text-left" style="color: var(--text-secondary);">Nombre</th>
                         <th class="p-3 text-left" style="color: var(--text-secondary);">Categoría</th>
                         <th class="p-3 text-left" style="color: var(--text-secondary);">Precio</th>
+                        <th class="p-3 text-center" style="color: var(--text-secondary);">Stock</th>
                         <th class="p-3 text-center" style="color: var(--text-secondary);">Acciones</th>
                     </tr>
                 </thead>
@@ -76,9 +80,18 @@
                         <td class="p-3 capitalize" style="color: var(--text-secondary);">{{ $producto->categoria }}</td>
                         <td class="p-3 font-bold" style="color: var(--text-primary);">S/ {{ number_format($producto->precio, 2) }}</td>
                         <td class="p-3 text-center">
+                            @if($producto->stock === 0)
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">Sin stock</span>
+                            @elseif($producto->stock <= 5)
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">{{ $producto->stock }} uds.</span>
+                            @else
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">{{ $producto->stock }} uds.</span>
+                            @endif
+                        </td>
+                        <td class="p-3 text-center">
                             <div class="flex gap-2 justify-center">
                                 {{-- Editar --}}
-                                <button onclick="abrirEditar({{ $producto->id }}, '{{ addslashes($producto->nombre) }}', '{{ $producto->categoria }}', {{ $producto->precio }}, '{{ addslashes($producto->imagen) }}', '{{ addslashes($producto->descripcion) }}')"
+                                <button onclick="abrirEditar({{ $producto->id }}, '{{ addslashes($producto->nombre) }}', '{{ $producto->categoria }}', {{ $producto->precio }}, {{ $producto->stock }}, '{{ addslashes($producto->imagen) }}', '{{ addslashes($producto->descripcion) }}')"
                                     class="px-3 py-1 rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition text-xs font-semibold">
                                     Editar
                                 </button>
@@ -118,8 +131,12 @@
                 <option value="{{ $cat }}">{{ ucfirst($cat) }}</option>
                 @endforeach
             </select>
-            <input type="number" name="precio" id="edit-precio" step="0.01" min="0" placeholder="Precio" required
-                class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+            <div class="grid grid-cols-2 gap-4">
+                <input type="number" name="precio" id="edit-precio" step="0.01" min="0" placeholder="Precio (S/)" required
+                    class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+                <input type="number" name="stock" id="edit-stock" min="0" placeholder="Stock (unidades)" required
+                    class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
+            </div>
             <input type="text" name="imagen" id="edit-imagen" placeholder="Ruta imagen" required
                 class="p-3 rounded-xl border-2 focus:outline-none" style="background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);">
             <textarea name="descripcion" id="edit-descripcion" rows="2" placeholder="Descripción"
@@ -132,11 +149,12 @@
 </div>
 
 <script>
-function abrirEditar(id, nombre, categoria, precio, imagen, descripcion) {
+function abrirEditar(id, nombre, categoria, precio, stock, imagen, descripcion) {
     document.getElementById('form-editar').action = '/moderador/productos/' + id;
     document.getElementById('edit-nombre').value = nombre;
     document.getElementById('edit-categoria').value = categoria;
     document.getElementById('edit-precio').value = precio;
+    document.getElementById('edit-stock').value = stock;
     document.getElementById('edit-imagen').value = imagen;
     document.getElementById('edit-descripcion').value = descripcion;
     document.getElementById('modal-editar').classList.remove('hidden');

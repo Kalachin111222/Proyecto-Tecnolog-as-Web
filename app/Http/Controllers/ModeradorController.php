@@ -31,6 +31,7 @@ class ModeradorController extends Controller
             'precio'      => 'required|numeric|min:0',
             'imagen'      => 'required|string',
             'descripcion' => 'nullable|string',
+            'stock'       => 'required|integer|min:0',
         ]);
 
         Producto::create([
@@ -39,6 +40,7 @@ class ModeradorController extends Controller
             'precio'      => $request->precio,
             'imagen'      => $request->imagen,
             'descripcion' => $request->descripcion,
+            'stock'       => $request->stock,
             'slug'        => Str::slug($request->nombre) . '-' . uniqid(),
         ]);
 
@@ -54,10 +56,11 @@ class ModeradorController extends Controller
             'precio'      => 'required|numeric|min:0',
             'imagen'      => 'required|string',
             'descripcion' => 'nullable|string',
+            'stock'       => 'required|integer|min:0',
         ]);
 
         $producto = Producto::findOrFail($id);
-        $producto->update($request->only(['nombre','categoria','precio','imagen','descripcion']));
+        $producto->update($request->only(['nombre','categoria','precio','imagen','descripcion','stock']));
 
         return back()->with('success', 'Producto actualizado correctamente.');
     }
