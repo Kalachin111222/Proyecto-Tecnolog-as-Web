@@ -10,12 +10,19 @@ class AuthController extends Controller
 {
     public function weblogin()
     {
-        if (session('usuario')) {
+        if (session('usuario') && session('usuario') !== 'invitado') {
             return session('rol') === 'admin'
                 ? redirect()->route('moderador')
                 : redirect()->route('inicio');
         }
         return view('login');
+    }
+
+    public function guest()
+    {
+        // Establece sesión de invitado
+        session(['usuario' => 'invitado', 'rol' => 'invitado']);
+        return redirect()->route('inicio');
     }
 
     public function login(Request $request)

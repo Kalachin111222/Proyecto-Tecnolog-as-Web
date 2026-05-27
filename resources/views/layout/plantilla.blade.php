@@ -38,21 +38,90 @@
 
         <!-- Columna 3: Cuenta y carrito (solo desktop) -->
         <div class="flex flex-nowrap items-center justify-end text-white gap-4 md:justify-self-end max-md:hidden">
-            <a href="{{route('cuenta')}}" class="no-underline text-white flex items-center gap-2 icon-button hover:text-yellow-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                <span data-translate="nav.account">Mi cuenta</span>
-            </a>
-            <a href="{{route('carrito')}}" class="no-underline text-white flex items-center gap-2 icon-button hover:text-yellow-300 transition-colors">
-                <div class="relative">
+
+            {{-- Dropdown Cuenta --}}
+            <div class="relative group">
+                @if(session('usuario') && session('usuario') !== 'invitado')
+                <button class="no-underline text-white flex items-center gap-2 icon-button hover:text-yellow-300 transition-colors cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
-                    <span id="carrito-badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+                    <span data-translate="nav.account">Mi cuenta</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                @else
+                <a href="{{ route('login') }}" class="no-underline text-white flex items-center gap-2 icon-button hover:text-yellow-300 transition-colors cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>Iniciar sesión</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </a>
+                @endif
+
+                {{-- Menú desplegable (solo si está autenticado) --}}
+                @if(session('usuario') && session('usuario') !== 'invitado')
+                <div class="absolute right-0 top-full mt-1 w-48 rounded-xl shadow-xl border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+                     style="background-color: var(--bg-card); border-color: var(--border-color);">
+                        <a href="{{ route('cuenta') }}" class="flex items-center gap-2 px-4 py-3 text-sm hover:bg-black hover:bg-opacity-10 rounded-t-xl transition-colors no-underline"
+                           style="color: var(--text-primary);">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            Mi cuenta
+                        </a>
+                        <div class="border-t" style="border-color: var(--border-color);"></div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center gap-2 px-4 py-3 text-sm hover:bg-black hover:bg-opacity-10 rounded-b-xl transition-colors text-left"
+                                    style="color: var(--text-primary);">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Cerrar sesión
+                            </button>
+                        </form>
                 </div>
-                <span id="carrito-total" data-translate="nav.cart">Carrito (S/ 0.00)</span>
-            </a>
+                @endif
+            </div>
+
+            {{-- Carrito con preview hover --}}
+            <div class="relative group">
+                <a href="{{route('carrito')}}" class="no-underline text-white flex items-center gap-2 icon-button hover:text-yellow-300 transition-colors">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span id="carrito-badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+                    </div>
+                    <span id="carrito-total" data-translate="nav.cart">Carrito (S/ 0.00)</span>
+                </a>
+
+                {{-- Preview carrito --}}
+                <div id="carrito-preview"
+                     class="absolute right-0 top-full mt-1 w-72 rounded-xl shadow-xl border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+                     style="background-color: var(--bg-card); border-color: var(--border-color);">
+                    <div class="p-3 border-b font-semibold text-sm" style="color: var(--text-primary); border-color: var(--border-color);">
+                        🛒 Productos en el carrito
+                    </div>
+                    <div id="carrito-preview-items" class="max-h-64 overflow-y-auto">
+                        <p class="text-center text-sm py-6" style="color: var(--text-secondary);">El carrito está vacío</p>
+                    </div>
+                    <div class="p-3 border-t flex justify-between items-center" style="border-color: var(--border-color);">
+                        <span class="font-semibold text-sm" style="color: var(--text-primary);">Total:</span>
+                        <span id="carrito-preview-total" class="font-bold" style="color: var(--text-primary);">S/ 0.00</span>
+                    </div>
+                    <div class="p-3 pt-0">
+                        <a href="{{ route('carrito') }}" class="block w-full text-center py-2 rounded-lg text-sm font-semibold text-white no-underline transition-colors"
+                           style="background-color: var(--accent-color);">Ver carrito completo</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </header>
@@ -75,9 +144,21 @@
             
             <div class="space-y-4 mb-8">
                 <div id="usuario-info-mobile">
-                    <a href="cuenta.html" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
-                        <span class="font-semibold" data-translate="nav.account">Mi Cuenta</span>
-                    </a>
+                    @if(session('usuario') && session('usuario') !== 'invitado')
+                        <a href="{{ route('cuenta') }}" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
+                            <span class="font-semibold" data-translate="nav.account">Mi Cuenta</span>
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors text-left" style="color: var(--text-primary);">
+                                <span class="font-semibold">Cerrar sesión</span>
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
+                            <span class="font-semibold">Iniciar sesión</span>
+                        </a>
+                    @endif
                 </div>
                 <div class="cuenta-carrito">
                     <a href="carrito.html" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
@@ -132,7 +213,7 @@
                 </div>
                 <div class="m-2 flex flex-col text-left text-sm" style="color: var(--text-primary);">
                     <h3 class="text-lg font-semibold mb-2" style="color: var(--text-primary);" data-translate="footer.knowUs">Conócenos</h3>
-                    <a href="Nosotros.html" class="no-underline mt-2" style="color: var(--text-primary);" data-translate="footer.whoWeAre">Quienes somos</a>
+                    <a href="{{ route('nosotros') }}" class="no-underline mt-2" style="color: var(--text-primary);" data-translate="footer.whoWeAre">Integrantes</a>
                     <p class="mt-2" style="color: var(--text-primary);" data-translate="footer.email"data-translate="footer.email">Email: contacto@ennita.pe</p>
                     <a href="Contacto.html" class="no-underline mt-2" style="color: var(--text-primary);" data-translate="footer.complaints">Libro de Reclamaciones</a>
                 </div>
@@ -159,5 +240,15 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+    {{-- Solo inyecta datos de sesión PHP → JS. Toda la lógica está en script.js --}}
+    <script>
+    window.APP = {
+        userId: {{ session('user_id') ?? 'null' }},
+        usuario: '{{ session('usuario') ?? '' }}',
+        rol: '{{ session('rol') ?? '' }}',
+        csrfToken: '{{ csrf_token() }}'
+    };
+    </script>
 </body>
 </html>

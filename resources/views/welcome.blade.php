@@ -49,7 +49,7 @@
 
     <div class="navegador flex justify-center items-center mt-6 mb-12 overflow-x-auto transition-all duration-300 ease-in-out max-md:hidden" id="navegador" style="background-color: var(--bg-primary); ">
         <nav>
-            <ul class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 p-2 list-none">
+            <ul class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-9 gap-2 p-2 list-none">
                 
                 <li class="flex flex-col items-center text-center text-sm">
                     <a href="" class="flex flex-col items-center no-underline group">
@@ -107,6 +107,13 @@
                     </a>
                 </li>
 
+                <li class="flex flex-col items-center text-center text-sm">
+                    <a href="{{route('nosotros')}}" class="flex flex-col items-center no-underline group">
+                        <img src="./imagenes/Navegador/usuario.png" alt="" class="h-28 w-28 object-contain">
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.pantry">Integrantes</span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
     </div>
@@ -144,7 +151,7 @@
                     <div class="flex items-center justify-between mt-2">
                         <span class="text-base font-bold" style="color: var(--text-primary);">S/ {{ number_format($producto->precio, 2) }}</span>
                         <button class="rounded-full w-9 h-9 flex items-center justify-center border-none cursor-pointer text-2xl leading-none font-mono"
-                            aria-label="Añadir" style="background-color: var(--btnAgregar); color: #000000;">+</button>
+                            aria-label="Añadir" data-producto-id="{{ $producto->id }}" style="background-color: var(--btnAgregar); color: #000000;">+</button>
                     </div>
                 </div>
                 @endforeach

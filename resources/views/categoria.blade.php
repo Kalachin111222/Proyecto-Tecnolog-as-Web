@@ -49,6 +49,7 @@
                         <button
                             class="rounded-full w-9 h-9 flex items-center justify-center border-none cursor-pointer text-2xl leading-none font-mono"
                             aria-label="Añadir"
+                            data-producto-id="{{ $producto->id }}"
                             style="background-color: var(--btnAgregar); color: #000000;">+</button>
                     </div>
                 </div>

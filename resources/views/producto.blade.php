@@ -44,7 +44,8 @@
                 <p class="text-base leading-relaxed" style="color: var(--text-secondary);">{{ $producto->descripcion }}</p>
 
                 <button
-                    onclick="agregarAlCarrito('{{ addslashes($producto->nombre) }}', {{ $producto->precio }})"
+                    data-producto-id="{{ $producto->id }}"
+                    onclick="agregarAlCarrito('{{ addslashes($producto->nombre) }}', {{ $producto->precio }}, {{ $producto->id }})"
                     class="mt-2 px-6 py-3 rounded-full font-bold text-black text-base transition hover:brightness-90 w-fit "
                     style="background-color: var(--btnAgregar);">
                     + Agregar al carrito
@@ -67,7 +68,8 @@
                         </p>
                         <div class="flex items-center justify-between mt-2">
                             <span class="text-base font-bold" style="color: var(--text-primary);">S/ {{ number_format($rel->precio, 2) }}</span>
-                            <button onclick="event.preventDefault(); agregarAlCarrito('{{ addslashes($rel->nombre) }}', {{ $rel->precio }})"
+                            <button onclick="event.preventDefault(); agregarAlCarrito('{{ addslashes($rel->nombre) }}', {{ $rel->precio }}, {{ $rel->id }})"
+                                data-producto-id="{{ $rel->id }}"
                                 class="rounded-full w-9 h-9 flex items-center justify-center border-none cursor-pointer text-2xl font-mono"
                                 style="background-color: var(--btnAgregar); color: #000;">+</button>
                         </div>

@@ -13,9 +13,13 @@ use App\Http\Controllers\HeladosController;
 use App\Http\Controllers\DespensaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ModeradorController;
+use App\Http\Controllers\NosotrosController; 
 use App\Models\Producto;
 
 Route::get('/', function () {
+    if (!session('usuario')) {
+        return redirect()->route('login');
+    }
     $categorias = ['cervezas', 'licores', 'comidas', 'bebidas', 'antojos', 'helados', 'despensa'];
     $productosPorCategoria = collect($categorias)->mapWithKeys(function ($cat) {
         return [$cat => Producto::where('categoria', $cat)->get()];
@@ -27,6 +31,7 @@ Route::get('/', function () {
 Route::get('/login',  [AuthController::class, 'weblogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/guest',  [AuthController::class, 'guest'])->name('guest');
 
 // Moderador
 Route::get('/moderador',             [ModeradorController::class, 'index'])->name('moderador');
@@ -34,8 +39,15 @@ Route::post('/moderador/productos',  [ModeradorController::class, 'store'])->nam
 Route::put('/moderador/productos/{id}',    [ModeradorController::class, 'update'])->name('moderador.update');
 Route::delete('/moderador/productos/{id}', [ModeradorController::class, 'destroy'])->name('moderador.destroy');
 
+Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
+
 // Páginas
 Route::get('/carrito',  [CarritoController::class, 'webcarrito'])->name('carrito');
+Route::get('/carrito/items',         [CarritoController::class, 'index']);
+Route::post('/carrito/items',        [CarritoController::class, 'store']);
+Route::put('/carrito/items/{id}',    [CarritoController::class, 'update']);
+Route::delete('/carrito/items/{id}', [CarritoController::class, 'destroy']);
+Route::delete('/carrito/vaciar',     [CarritoController::class, 'vaciar']);
 Route::get('/cuenta',   [CuentaController::class,  'webcuenta'])->name('cuenta');
 
 Route::get('/cervezas', [CervezasController::class, 'webcervezas'])->name('cervezas');

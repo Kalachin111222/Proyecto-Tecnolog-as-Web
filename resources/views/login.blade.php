@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - D'Ennita</title>
+    <link rel="icon" type="image/png" href="imagenes/Nosotros.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -53,10 +54,18 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-primary w-full py-3.5 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all">
+            <button type="submit" class="btn-primary w-full py-3.5 text-white font-semibold bg-blue-500 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all">
                 Iniciar Sesión
             </button>
         </form>
+
+        <div class="mt-4">
+            <a href="{{ route('guest') }}" class="w-full py-3.5 flex items-center justify-center gap-2 font-semibold rounded-xl border-2 transition-all hover:-translate-y-0.5 hover:shadow-md"
+               style="color: var(--text-primary); border-color: var(--accent-color);">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                Continuar como invitado
+            </a>
+        </div>
 
         <div class="credentials-box mt-6 p-4 rounded-xl border-l-4">
             <div class="text-xs font-semibold subtitle-text uppercase mb-2">Credenciales de prueba</div>
