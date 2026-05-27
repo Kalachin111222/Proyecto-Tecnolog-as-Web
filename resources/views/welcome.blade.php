@@ -110,7 +110,7 @@
                 <li class="flex flex-col items-center text-center text-sm">
                     <a href="{{route('nosotros')}}" class="flex flex-col items-center no-underline group">
                         <img src="./imagenes/Navegador/usuario.png" alt="" class="h-28 w-28 object-contain">
-                        <span class="font-semibold mt-1" style="color: var(--text-producto);" data-translate="nav.pantry">Integrantes</span>
+                        <span class="font-semibold mt-1" style="color: var(--text-producto);">Integrantes</span>
                     </a>
                 </li>
 

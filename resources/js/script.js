@@ -1726,42 +1726,55 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
         overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.15); display: none;
     `;
     wrapper.appendChild(dropdown);
-
+ 
     input.addEventListener('input', function () {
         const query = this.value.toLowerCase().trim();
         dropdown.innerHTML = '';
         if (!query) { dropdown.style.display = 'none'; return; }
-
+ 
         const resultados = [];
         document.querySelectorAll('.grid > div.p-4').forEach(p => {
-            const nombre = p.querySelector('p')?.textContent?.trim();
+            const enlace = p.querySelector('a[href*="/producto/"]');
+            const nombre = p.querySelector('a[href*="/producto/"] p, a[href*="/producto/"] + a p')?.textContent?.trim()
+                        || p.querySelector('p')?.textContent?.trim();
             const precio = p.querySelector('span.font-bold')?.textContent?.trim();
-            if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio });
+            const url = enlace?.href || null;
+            if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio, url });
         });
         document.querySelectorAll('.producto').forEach(p => {
+            const enlace = p.querySelector('a[href*="/producto/"]');
             const nombre = p.querySelector('.producto-descripcion, p')?.textContent?.trim();
             const precio = p.querySelector('.precio, span.precio')?.textContent?.trim();
-            if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio });
+            const url = enlace?.href || null;
+            if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio, url });
         });
-
+ 
         if (!resultados.length) {
             dropdown.innerHTML = `<div style="padding:12px 16px;color:var(--text-primary);opacity:0.6;">Sin resultados para "${query}"</div>`;
         } else {
-            resultados.forEach(({ nombre, precio }) => {
+            resultados.forEach(({ nombre, precio, url }) => {
                 const item = document.createElement('div');
                 item.style.cssText = `padding:10px 16px;cursor:pointer;display:flex;justify-content:space-between;
                     align-items:center;color:var(--text-primary);border-bottom:1px solid var(--border-color);`;
                 item.innerHTML = `<span>${nombre}</span><span style="font-weight:bold;color:var(--accent,#f59e0b);">${precio || ''}</span>`;
                 item.addEventListener('mouseenter', () => item.style.background = 'var(--border-color)');
                 item.addEventListener('mouseleave', () => item.style.background = '');
-                item.addEventListener('click', () => { input.value = nombre; dropdown.style.display = 'none'; });
+                item.addEventListener('click', () => {
+                    dropdown.style.display = 'none';
+                    if (url) {
+                        window.location.href = url;
+                    } else {
+                        input.value = nombre;
+                    }
+                });
                 dropdown.appendChild(item);
             });
         }
         dropdown.style.display = 'block';
     });
-
+ 
     document.addEventListener('click', e => {
         if (!wrapper.contains(e.target)) dropdown.style.display = 'none';
     });
 });
+

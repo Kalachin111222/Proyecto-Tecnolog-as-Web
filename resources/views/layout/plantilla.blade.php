@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="imagenes/Nosotros.png">
+    <link rel="icon" type="image/png" href="{{ asset('imagenes/Nosotros.png') }}">
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,7 +20,7 @@
                 </svg>
             </button>
             <a href="{{ route('inicio') }}" class="icon-button inline-block ml-2 md:ml-0">
-                <img src="./imagenes/logo.png" alt="Logo" class="h-12 w-auto">
+                <img src="{{ asset('imagenes/logo.png') }}" alt="Logo" class="h-12 w-auto">
             </a>
         </div>
 
@@ -194,6 +194,9 @@
                     <a href="{{ route('despensa') }}" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
                         <span data-translate="nav.pantry">Despensa</span>
                     </a>
+                    <a href="{{ route('despensa') }}" class="flex items-center p-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-colors" style="color: var(--text-primary);">
+                        <span>Integrantes</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -209,11 +212,11 @@
         <div class="px-5 mb-12 mt-12">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 max-w-screen-xl mx-auto">
                 <div class="m-2 flex flex-col text-left text-sm" style="color: var(--text-primary);">
-                    <img src="./imagenes/logo.png" alt="Logo del supermercado" class="h-auto w-52">
+                    <img src="{{ asset('imagenes/logo.png') }}" alt="Logo del supermercado" class="h-auto w-52">
                 </div>
                 <div class="m-2 flex flex-col text-left text-sm" style="color: var(--text-primary);">
                     <h3 class="text-lg font-semibold mb-2" style="color: var(--text-primary);" data-translate="footer.knowUs">Conócenos</h3>
-                    <a href="{{ route('nosotros') }}" class="no-underline mt-2" style="color: var(--text-primary);" data-translate="footer.whoWeAre">Integrantes</a>
+                    <a href="{{ route('nosotros') }}" class="no-underline mt-2" style="color: var(--text-primary);">Integrantes</a>
                     <p class="mt-2" style="color: var(--text-primary);" data-translate="footer.email"data-translate="footer.email">Email: contacto@ennita.pe</p>
                     <a href="Contacto.html" class="no-underline mt-2" style="color: var(--text-primary);" data-translate="footer.complaints">Libro de Reclamaciones</a>
                 </div>
