@@ -17,7 +17,7 @@ const translations = {
       whoWeAre: "Quienes somos",
         categories: "Categorías"
     },
-    
+
     // Categorías en la página principal
     categories: {
       beers: "Cervezas",
@@ -29,7 +29,7 @@ const translations = {
       pantry: "Despensa",
       seeMore: "Ver más"
     },
-    
+
     // Footer
     footer: {
       knowUs: "Conócenos",
@@ -44,7 +44,7 @@ const translations = {
       privacy: "Política de privacidad",
       terms: "Términos de servicio"
     },
-    
+
     // Cuenta
     account: {
       title: "Mi Cuenta",
@@ -85,7 +85,7 @@ const translations = {
     complaints: {
       title: "Libro de Reclamaciones",
       legal: "Conforme a lo establecido en el Código de Protección y Defensa del Consumidor",
-      
+
       // Sección 1: Datos
       s1_title: "Datos del Consumidor",
       name: "Nombre Completo *",
@@ -110,20 +110,20 @@ const translations = {
       // Sección 3: Detalle
       s3_title: "Detalle de la Reclamación o Queja",
       type_label: "Tipo *",
-      
+
       radio_claim_title: "RECLAMO",
       radio_claim_desc: "Disconformidad relacionada a los productos o servicios",
-      
+
       radio_complaint_title: "QUEJA",
       radio_complaint_desc: "Disconformidad no relacionada a los productos o servicios",
-      
+
       detail_label: "Detalle del Reclamo/Queja *",
       request_label: "Pedido del Consumidor *",
 
       // Sección 4 y Final
       s4_title: "Observaciones y Acciones Adoptadas",
       terms: "Declaro bajo juramento que la información proporcionada es verdadera y autorizo el uso de mis datos personales para el trámite de mi reclamo.",
-      
+
       submit_claim: "Enviar Reclamo",
       reset_form: "Limpiar Formulario",
 
@@ -131,7 +131,7 @@ const translations = {
       disclaimer_indecopi: "La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI.",
       response_deadline: "El proveedor debe dar respuesta al reclamo en un plazo no mayor a treinta (30) días calendario.",
       required_fields_note: "Los campos marcados con (*) son obligatorios."
-    
+
     },
     cartPage: {
       title: "Mi Carrito de Compras",
@@ -141,9 +141,9 @@ const translations = {
       checkout: "Proceder al Pago", // Opcional, por si lo agregas luego
       emptyMessage: "Tu carrito está vacío" // Mensaje útil para JS
     }
-    
+
   },
-  
+
   en: {
     // Header and navigation
     nav: {
@@ -162,7 +162,7 @@ const translations = {
       whoWeAre: "Who we are",
       categories: "Categories"
     },
-    
+
     // Categories on main page
     categories: {
       beers: "Beers",
@@ -174,7 +174,7 @@ const translations = {
       pantry: "Pantry",
       seeMore: "See more"
     },
-    
+
     // Footer
     footer: {
       knowUs: "About Us",
@@ -189,7 +189,7 @@ const translations = {
       privacy: "Privacy Policy",
       terms: "Terms of Service"
     },
-    
+
     // Account
     account: {
       title: "My Account",
@@ -230,7 +230,7 @@ const translations = {
     complaints: {
       title: "Complaints Book",
       legal: "In accordance with the Consumer Protection and Defense Code",
-      
+
       s1_title: "Consumer Details",
       name: "Full Name *",
       lastname: "Last Name *",
@@ -252,13 +252,13 @@ const translations = {
 
       s3_title: "Detail of the Claim or Complaint",
       type_label: "Type *",
-      
+
       radio_claim_title: "CLAIM",
       radio_claim_desc: "Dissatisfaction related to the products or services",
-      
+
       radio_complaint_title: "COMPLAINT",
       radio_complaint_desc: "Dissatisfaction not related to the products or services (e.g., attention)",
-      
+
       detail_label: "Detail of the Claim/Complaint *",
       request_label: "Consumer Request *",
 
@@ -282,7 +282,7 @@ const translations = {
       emptyMessage: "Your cart is empty"
     }
   },
-  
+
   pt: {
     // Cabeçalho e navegação
     nav: {
@@ -301,7 +301,7 @@ const translations = {
       whoWeAre: "Quem somos",
         categories: "Categorias"
     },
-    
+
     // Categorias na página principal
     categories: {
       beers: "Cervejas",
@@ -313,7 +313,7 @@ const translations = {
       pantry: "Despensa",
       seeMore: "Ver mais"
     },
-    
+
     // Rodapé
     footer: {
       knowUs: "Conheça-nos",
@@ -328,7 +328,7 @@ const translations = {
       privacy: "Política de Privacidade",
       terms: "Termos de Serviço"
     },
-    
+
     // Conta
     account: {
       title: "Minha Conta",
@@ -369,7 +369,7 @@ const translations = {
     complaints: {
       title: "Livro de Reclamações",
       legal: "Em conformidade com o Código de Proteção e Defesa do Consumidor",
-      
+
       s1_title: "Dados do Consumidor",
       name: "Nome Completo *",
       lastname: "Sobrenome *",
@@ -391,13 +391,13 @@ const translations = {
 
       s3_title: "Detalhe da Reclamação ou Queixa",
       type_label: "Tipo *",
-      
+
       radio_claim_title: "RECLAMAÇÃO",
       radio_claim_desc: "Descontentamento relacionado aos produtos ou serviços",
-      
+
       radio_complaint_title: "QUEIXA",
       radio_complaint_desc: "Descontentamento não relacionado aos produtos ou serviços",
-      
+
       detail_label: "Detalhe da Reclamação/Queixa *",
       request_label: "Pedido do Consumidor *",
 
@@ -412,7 +412,7 @@ const translations = {
       response_deadline: "O fornecedor deve responder à reclamação num prazo não superior a trinta (30) dias corridos.",
       required_fields_note: "Os campos marcados com (*) são obrigatórios."
     },
-    
+
     cartPage: {
       title: "Meu Carrinho de Compras",
       total: "Total:",
@@ -428,7 +428,7 @@ const translations = {
 function getTranslation(lang, key) {
   const keys = key.split('.');
   let translation = translations[lang];
-  
+
   for (let k of keys) {
     if (translation && translation[k]) {
       translation = translation[k];
@@ -436,18 +436,18 @@ function getTranslation(lang, key) {
       return key; // Retorna la clave si no encuentra traducción
     }
   }
-  
+
   return translation;
 }
 
 // Función para aplicar traducciones a la página
 function applyTranslations(lang) {
   const elements = document.querySelectorAll('[data-translate]');
-  
+
   elements.forEach(element => {
     const key = element.getAttribute('data-translate');
     const translation = getTranslation(lang, key);
-    
+
     if (translation && translation !== key) {
       // Si es un input, traducir el placeholder
       if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
@@ -457,7 +457,7 @@ function applyTranslations(lang) {
       }
     }
   });
-  
+
   // Actualizar el atributo lang del HTML
   document.documentElement.lang = lang;
 }
@@ -466,7 +466,7 @@ function applyTranslations(lang) {
 document.addEventListener('DOMContentLoaded', function() {
   const savedLang = localStorage.getItem('userLanguage') || 'es';
   applyTranslations(savedLang);
-  
+
   // Si existe selector de idioma en la página, establecer su valor
   const langSelector = document.getElementById('languageSelector');
   if (langSelector) {
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function changeLanguage(lang) {
   localStorage.setItem('userLanguage', lang);
   applyTranslations(lang);
-  
+
   // Mostrar mensaje de confirmación
   const savedMsg = document.getElementById('languageSavedMessage');
   if (savedMsg) {
@@ -497,9 +497,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new ClaimsFormManager();
     try {
         const carousel = new EnhancedCarousel();
-        
+
         const whatsappButton = new WhatsAppButton('51987654321', 'Hola, me interesa conocer más sobre sus productos del supermercado');
-        
+
         let hamburgerMenu = null;
         const initHamburgerMenu = () => {
             if (window.innerWidth <= 768 && !hamburgerMenu) {
@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hamburgerMenu.close();
             }
         };
-        
+
         initHamburgerMenu();
 
         new SmoothScroll();
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 carousel.updateIndicators();
             }
         }, 250);
-        
+
         window.addEventListener('resize', debouncedResize);
 
         window.addEventListener('beforeunload', () => {
@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 carousel.destroy();
             }
         });
-        
+
     } catch (error) {
         console.error('Error inicializando la aplicación:', error);
     }
@@ -540,13 +540,13 @@ document.addEventListener('DOMContentLoaded', () => {
 class ClaimsFormManager {
     constructor() {
         this.form = document.getElementById('reclamacionForm');
-        
+
         // GUARDIA: Si no estamos en la página de Contacto, paramos aquí para no dar error.
         if (!this.form) return;
 
         this.toggles = document.querySelectorAll('.seccion-toggle');
         this.resetBtn = this.form.querySelector('button[type="reset"]');
-        
+
         // Iniciamos la lógica
         this.init();
     }
@@ -594,12 +594,12 @@ class ClaimsFormManager {
         // 1. Manejo del ENVÍO
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             // Aquí iría tu lógica de conexión con el backend o traducción
             alert('¡Reclamo enviado exitosamente! Recibirá una respuesta en un plazo máximo de 30 días calendario.');
-            
+
             this.form.reset();
-            
+
             // Esperamos un poco para cerrar las secciones visualmente
             setTimeout(() => this.resetSectionsVisibility(), 50);
         });
@@ -619,7 +619,7 @@ class ClaimsFormManager {
         // Cerrar todas las secciones excepto la primera
         document.querySelectorAll('.seccion-contenido').forEach((content, index) => {
             const icon = document.querySelector(`[data-seccion="${content.id}"] .icono-toggle`);
-            
+
             if (index === 0) {
                 // La primera se queda abierta
                 content.classList.remove('hidden');
@@ -648,36 +648,36 @@ class EnhancedCarousel {
         this.indicators = document.querySelectorAll('.indicator');
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
-        
+
         if (!this.carousel || !this.carouselImages || !this.indicators.length) {
             console.warn('Elementos del carrusel no encontrados');
             return;
         }
-        
+
         this.init();
     }
-    
+
     init() {
         this.prevBtn?.addEventListener('click', () => {
             this.prevSlide();
             this.restartAutoplay();
         });
-        
+
         this.nextBtn?.addEventListener('click', () => {
             this.nextSlide();
             this.restartAutoplay();
         });
-        
+
         this.indicators.forEach((indicator, index) => {
             indicator.addEventListener('click', () => {
                 this.goToSlide(index);
                 this.restartAutoplay();
             });
         });
-        
+
         this.carousel.addEventListener('mouseenter', () => this.pauseAutoplay());
         this.carousel.addEventListener('mouseleave', () => this.resumeAutoplay());
-        
+
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 this.pauseAutoplay();
@@ -685,27 +685,27 @@ class EnhancedCarousel {
                 this.resumeAutoplay();
             }
         });
-        
+
         this.addTouchSupport();
-        
+
         this.updateCarousel();
         this.updateIndicators();
         this.startAutoplay();
     }
-    
+
     addTouchSupport() {
         let startX = 0;
         let endX = 0;
         const threshold = 50;
-        
+
         this.carousel.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
         }, { passive: true });
-        
+
         this.carousel.addEventListener('touchend', (e) => {
             endX = e.changedTouches[0].clientX;
             const difference = startX - endX;
-            
+
             if (Math.abs(difference) > threshold) {
                 if (difference > 0) {
                     this.nextSlide();
@@ -716,42 +716,42 @@ class EnhancedCarousel {
             }
         }, { passive: true });
     }
-    
+
     goToSlide(slideIndex) {
         if (slideIndex === this.currentSlide) return;
-        
+
         this.currentSlide = slideIndex;
         this.updateCarousel();
         this.updateIndicators();
     }
-    
+
     nextSlide() {
         this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
         this.updateCarousel();
         this.updateIndicators();
     }
-    
+
     prevSlide() {
         this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
         this.updateCarousel();
         this.updateIndicators();
     }
-    
+
     updateCarousel() {
         const translateX = -this.currentSlide * (100 / this.totalSlides);
         this.carouselImages.style.transform = `translateX(${translateX}%)`;
     }
-    
+
     updateIndicators() {
         this.indicators.forEach((indicator, index) => {
             const isActive = index === this.currentSlide;
             indicator.classList.toggle('active', isActive);
-            
+
             const progressBar = indicator.querySelector('.progress-bar');
             if (progressBar) {
                 progressBar.style.animation = 'none';
                 progressBar.offsetHeight;
-                
+
                 if (isActive && this.isPlaying && !this.isPaused) {
                     const fillDuration = this.progressDuration - this.indicatorTransitionDuration;
                     progressBar.style.animation = `progressFill ${fillDuration}ms linear ${this.indicatorTransitionDuration}ms forwards`;
@@ -761,27 +761,27 @@ class EnhancedCarousel {
             }
         });
     }
-    
+
     startAutoplay() {
         this.stopAutoplay();
-        
+
         if (!this.isPlaying) return;
-        
+
         this.autoplayInterval = setInterval(() => {
             if (this.isPlaying && !this.isPaused && !document.hidden) {
                 this.nextSlide();
             }
         }, this.progressDuration);
-        
+
         this.updateIndicators();
     }
-    
+
     stopAutoplay() {
         if (this.autoplayInterval) {
             clearInterval(this.autoplayInterval);
             this.autoplayInterval = null;
         }
-        
+
         this.indicators.forEach(indicator => {
             const progressBar = indicator.querySelector('.progress-bar');
             if (progressBar) {
@@ -790,17 +790,17 @@ class EnhancedCarousel {
             }
         });
     }
-    
+
     restartAutoplay() {
         this.stopAutoplay();
         this.isPlaying = true;
         this.isPaused = false;
         this.startAutoplay();
     }
-    
+
     pauseAutoplay() {
         this.isPaused = true;
-        
+
         const activeIndicator = this.indicators[this.currentSlide];
         if (activeIndicator) {
             const progressBar = activeIndicator.querySelector('.progress-bar');
@@ -809,12 +809,12 @@ class EnhancedCarousel {
             }
         }
     }
-    
+
     resumeAutoplay() {
         if (!this.isPlaying) return;
-        
+
         this.isPaused = false;
-        
+
         const activeIndicator = this.indicators[this.currentSlide];
         if (activeIndicator) {
             const progressBar = activeIndicator.querySelector('.progress-bar');
@@ -825,7 +825,7 @@ class EnhancedCarousel {
             }
         }
     }
-    
+
     destroy() {
         this.stopAutoplay();
     }
@@ -836,22 +836,22 @@ class WhatsAppButton {
         this.phoneNumber = phoneNumber;
         this.message = encodeURIComponent(message);
         this.isVisible = false;
-        
+
         this.init();
     }
-    
+
     init() {
         this.createButton();
         this.addEventListeners();
         this.handleScroll();
     }
-    
+
     createButton() {
         this.button = document.createElement('div');
         this.button.className = 'whatsapp-float';
         this.button.innerHTML = `
-            <a href="https://wa.me/${this.phoneNumber}?text=${this.message}" 
-               target="_blank" 
+            <a href="https://wa.me/${this.phoneNumber}?text=${this.message}"
+               target="_blank"
                rel="noopener noreferrer"
                aria-label="Contactar por WhatsApp"
                title="Contactar por WhatsApp">
@@ -863,51 +863,51 @@ class WhatsAppButton {
                 <span class="whatsapp-text">WhatsApp</span>
             </a>
         `;
-        
+
         document.body.appendChild(this.button);
     }
-    
+
     addEventListeners() {
         const link = this.button.querySelector('a');
         link.addEventListener('mouseenter', () => {
             this.button.classList.add('hover');
         });
-        
+
         link.addEventListener('mouseleave', () => {
             this.button.classList.remove('hover');
         });
-        
+
         window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
-        
+
     }
-    
+
     handleScroll() {
         const scrollY = window.scrollY;
         const shouldShow = scrollY > 300;
-        
+
         if (shouldShow && !this.isVisible) {
             this.show();
         } else if (!shouldShow && this.isVisible) {
             this.hide();
         }
     }
-    
+
     show() {
         this.isVisible = true;
         this.button.classList.add('visible');
     }
-    
+
     hide() {
         this.isVisible = false;
         this.button.classList.remove('visible');
     }
-    
+
     updatePhone(newPhone) {
         this.phoneNumber = newPhone;
         const link = this.button.querySelector('a');
         link.href = `https://wa.me/${this.phoneNumber}?text=${this.message}`;
     }
-    
+
     updateMessage(newMessage) {
         this.message = encodeURIComponent(newMessage);
         const link = this.button.querySelector('a');
@@ -919,19 +919,19 @@ class SmoothScroll {
     constructor() {
         this.init();
     }
-    
+
     init() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 const href = anchor.getAttribute('href');
                 if (href === '#') return;
-                
+
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
                     const headerHeight = document.querySelector('.header-fixed')?.offsetHeight || 0;
                     const targetPosition = target.offsetTop - headerHeight;
-                    
+
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -946,16 +946,16 @@ class PerformanceOptimizer {
     constructor() {
         this.init();
     }
-    
+
     init() {
         this.setupLazyLoading();
-        
+
         this.preloadCriticalImages();
     }
-    
+
     setupLazyLoading() {
         const images = document.querySelectorAll('img[data-src]');
-        
+
         if ('IntersectionObserver' in window) {
             const imageObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -967,18 +967,18 @@ class PerformanceOptimizer {
                     }
                 });
             });
-            
+
             images.forEach(img => imageObserver.observe(img));
         }
     }
-    
+
     preloadCriticalImages() {
         const criticalImages = [
             './imagenes/bienvenido.png',
             './imagenes/banner1.png',
             './imagenes/banner2.png'
         ];
-        
+
         criticalImages.forEach(src => {
             const img = new Image();
             img.src = src;
@@ -1015,16 +1015,16 @@ class DarkModeToggle {
     constructor() {
         this.currentTheme = localStorage.getItem('theme') || 'light';
         this.button = null;
-        
+
         this.init();
     }
-    
+
     init() {
         this.createToggleButton();
         this.applyTheme(this.currentTheme);
         this.addEventListeners();
     }
-    
+
     createToggleButton() {
         this.button = document.createElement('button');
         this.button.className = 'theme-toggle';
@@ -1037,28 +1037,28 @@ class DarkModeToggle {
                 <path d="M12.34 2.02c5.08.87 8.66 5.36 8.66 10.98 0 6.08-4.92 11-11 11-5.62 0-10.11-3.58-10.98-8.66-.1-.58.39-1.07.98-.97 4.27.73 8.04-2.87 8.04-7.35 0-1.09-.2-2.13-.56-3.09-.2-.53.25-1.03.86-.91z"/>
             </svg>
         `;
-        
+
         document.body.appendChild(this.button);
     }
-    
+
     addEventListeners() {
         this.button.addEventListener('click', () => {
             this.toggleTheme();
         });
     }
-    
+
     toggleTheme() {
         this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
         this.applyTheme(this.currentTheme);
         localStorage.setItem('theme', this.currentTheme);
     }
-    
+
     applyTheme(theme) {
         // Deshabilitar transiciones temporalmente
         document.body.classList.add('no-transition');
-        
+
         document.documentElement.setAttribute('data-theme', theme);
-        
+
         const metaThemeColor = document.querySelector('meta[name="theme-color"]');
         if (metaThemeColor) {
             metaThemeColor.setAttribute('content', theme === 'dark' ? '#1a1a1a' : '#0d47a1');
@@ -1068,13 +1068,13 @@ class DarkModeToggle {
             meta.content = theme === 'dark' ? '#1a1a1a' : '#0d47a1';
             document.head.appendChild(meta);
         }
-        
+
         // Reactivar transiciones después de un momento
         setTimeout(() => {
             document.body.classList.remove('no-transition');
         }, 50);
     }
-    
+
     getCurrentTheme() {
         return this.currentTheme;
     }
@@ -1084,14 +1084,14 @@ class ConnectionMonitor {
         this.isOnline = navigator.onLine;
         this.statusElement = null;
         this.hideTimeout = null;
-        
+
         this.init();
     }
-    
+
     init() {
         this.createStatusElement();
         this.addEventListeners();
-        
+
         this.checkInitialConnection();
     }
     async checkInitialConnection() {
@@ -1102,7 +1102,7 @@ class ConnectionMonitor {
                 cache: 'no-cache',
                 signal: AbortSignal.timeout(5000)
             });
-            
+
             this.isOnline = true;
             this.enablePageFunctions();
         } catch (error) {
@@ -1111,67 +1111,67 @@ class ConnectionMonitor {
             this.disablePageFunctions();
         }
     }
-    
+
     createStatusElement() {
         this.statusElement = document.createElement('div');
         this.statusElement.className = 'connection-status';
         document.body.appendChild(this.statusElement);
     }
-    
+
     addEventListeners() {
         window.addEventListener('online', () => {
             this.isOnline = true;
             this.showStatus(true);
         });
-        
+
         window.addEventListener('offline', () => {
             this.isOnline = false;
             this.showStatus(false);
         });
-        
+
         this.startPeriodicCheck();
     }
-    
+
     showStatus(isOnline) {
         clearTimeout(this.hideTimeout);
-    
+
         const icon = isOnline ? '🟢' : '🔴';
         const message = isOnline ? 'Conexión restaurada' : 'Sin conexión a internet';
-        
+
         if (isOnline) {
             this.enablePageFunctions();
         } else {
             this.disablePageFunctions();
         }
-        
+
         this.statusElement.innerHTML = `
             <span class="status-icon">${icon}</span>
             ${message}
         `;
-        
+
         this.statusElement.className = `connection-status ${isOnline ? 'online' : 'offline'}`;
-        
+
         setTimeout(() => {
             this.statusElement.classList.add('show');
         }, 100);
-        
+
         if (isOnline) {
             this.hideTimeout = setTimeout(() => {
                 this.hideStatus();
             }, 3000);
         }
     }
-    
+
     hideStatus() {
         this.statusElement.classList.remove('show');
     }
-    
+
     startPeriodicCheck() {
         setInterval(() => {
             this.checkConnection();
         }, 15000);
     }
-    
+
     async checkConnection() {
         try {
             const response = await fetch('https://www.google.com/favicon.ico', {
@@ -1179,7 +1179,7 @@ class ConnectionMonitor {
                 mode: 'no-cors',
                 cache: 'no-cache'
             });
-            
+
             if (!this.isOnline) {
                 this.isOnline = true;
                 this.showStatus(true);
@@ -1191,7 +1191,7 @@ class ConnectionMonitor {
             }
         }
     }
-    
+
     getCurrentStatus() {
         return this.isOnline;
     }
@@ -1203,23 +1203,23 @@ class ConnectionMonitor {
             searchInput.disabled = true;
             searchInput.placeholder = 'Sin conexión - Búsqueda no disponible';
         }
-        
+
         const addButtons = document.querySelectorAll('.button-add');
         addButtons.forEach(button => {
             button.disabled = true;
             button.style.opacity = '0.5';
             button.style.cursor = 'not-allowed';
         });
-        
+
         const carouselItems = document.querySelectorAll('.carousel-item');
         carouselItems.forEach(item => {
             item.style.pointerEvents = 'none';
             item.style.opacity = '0.7';
         });
-        
+
         document.body.classList.add('offline-mode');
     }
-    
+
     enablePageFunctions() {
         const searchButton = document.querySelector('.boton-busqueda');
         const searchInput = document.querySelector('.caja-busqueda');
@@ -1227,23 +1227,23 @@ class ConnectionMonitor {
         if (searchInput) {
             searchInput.disabled = false;
         }
-        
+
         const addButtons = document.querySelectorAll('.button-add');
         addButtons.forEach(button => {
             button.disabled = false;
             button.style.opacity = '1';
             button.style.cursor = 'pointer';
         });
-        
+
         const carouselItems = document.querySelectorAll('.carousel-item');
         carouselItems.forEach(item => {
             item.style.pointerEvents = 'auto';
             item.style.opacity = '1';
         });
-        
+
         document.body.classList.remove('offline-mode');
     }
-    
+
 }
 
 
@@ -1331,25 +1331,34 @@ async function actualizarTotalCarrito() {
 function inicializarPreviewCarrito() {
     const previewEl = document.getElementById('carrito-preview');
     if (!previewEl) return;
-    const carritoGroup = previewEl.closest('.group');
-    if (!carritoGroup) return;
+    const wrapper = previewEl.closest('.carrito-preview-wrapper');
+    if (!wrapper) return;
 
-    let isLoading = false;
-    carritoGroup.addEventListener('mouseenter', async function () {
-        if (isLoading) return;
-        isLoading = true;
+    let hideTimeout;
+    let dataLoaded = false;
 
+    function mostrar() {
+        clearTimeout(hideTimeout);
+        previewEl.style.display = 'block';
+        if (!dataLoaded) cargarDatosPreview();
+    }
+
+    function ocultar() {
+        hideTimeout = setTimeout(() => { previewEl.style.display = 'none'; }, 180);
+    }
+
+    async function cargarDatosPreview() {
         const itemsEl = document.getElementById('carrito-preview-items');
         const totalEl = document.getElementById('carrito-preview-total');
-        if (!itemsEl || !totalEl) { isLoading = false; return; }
+        if (!itemsEl || !totalEl) return;
 
         try {
             const carrito = await obtenerCarrito();
+            dataLoaded = true;
 
             if (!carrito || !carrito.length) {
-                itemsEl.innerHTML = '<p class="text-center text-sm py-6" style="color:var(--text-secondary);">El carrito está vacío</p>';
+                itemsEl.innerHTML = '<p class="text-center small py-4" style="color:var(--text-secondary);">El carrito está vacío</p>';
                 totalEl.textContent = 'S/ 0.00';
-                isLoading = false;
                 return;
             }
 
@@ -1358,23 +1367,49 @@ function inicializarPreviewCarrito() {
                 const subtotal = (item.precio || 0) * (item.cantidad || 1);
                 total += subtotal;
                 html += `
-                    <div class="flex items-center gap-3 px-3 py-2 border-b" style="border-color:var(--border-color);">
+                    <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom" style="border-color:var(--border-color);">
                         <img src="${item.imagen || ''}" alt="${item.nombre}"
-                             class="w-10 h-10 object-contain rounded"
+                             style="width:40px;height:40px;object-fit:contain;border-radius:4px;"
                              onerror="this.style.display='none'">
-                        <div class="flex-1 min-w-0">
-                            <p class="text-xs font-medium truncate" style="color:var(--text-primary);">${item.nombre}</p>
-                            <p class="text-xs" style="color:var(--text-secondary);">x${item.cantidad} &nbsp; S/ ${subtotal.toFixed(2)}</p>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="mb-0 small fw-medium text-truncate" style="color:var(--text-primary);">${item.nombre}</p>
+                            <p class="mb-0 small" style="color:var(--text-secondary);">x${item.cantidad} &nbsp; S/ ${subtotal.toFixed(2)}</p>
                         </div>
                     </div>`;
             });
             itemsEl.innerHTML = html;
             totalEl.textContent = 'S/ ' + total.toFixed(2);
         } catch (err) {
-            itemsEl.innerHTML = '<p class="text-center text-sm py-6" style="color:var(--text-secondary);">Error al cargar el carrito</p>';
+            itemsEl.innerHTML = '<p class="text-center small py-4" style="color:var(--text-secondary);">Error al cargar el carrito</p>';
         }
-        isLoading = false;
-    });
+    }
+
+    wrapper.addEventListener('mouseenter', mostrar);
+    wrapper.addEventListener('mouseleave', ocultar);
+    previewEl.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+    previewEl.addEventListener('mouseleave', ocultar);
+}
+
+// ── Hover para dropdown de cuenta ──
+function inicializarDropdownCuenta() {
+    const wrapper = document.querySelector('.dropdown-hover-wrapper');
+    const menu    = document.querySelector('.dropdown-menu-hover');
+    if (!wrapper || !menu) return;
+
+    let hideTimeout;
+
+    function mostrar() {
+        clearTimeout(hideTimeout);
+        menu.style.display = 'block';
+    }
+    function ocultar() {
+        hideTimeout = setTimeout(() => { menu.style.display = 'none'; }, 180);
+    }
+
+    wrapper.addEventListener('mouseenter', mostrar);
+    wrapper.addEventListener('mouseleave', ocultar);
+    menu.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+    menu.addEventListener('mouseleave', ocultar);
 }
 
 // ── Página /carrito ──
@@ -1487,6 +1522,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializar preview hover del carrito
     inicializarPreviewCarrito();
 
+    // Inicializar dropdown hover de cuenta
+    inicializarDropdownCuenta();
+
     if (path === '/carrito') {
         cargarCarrito();
     } else if (path === '/cuenta') {
@@ -1533,8 +1571,8 @@ document.addEventListener('DOMContentLoaded', function () {
 // ═══════════════════════════════════════════════════════════════
 
 function inicializarProductos() {
-    // Tarjetas Tailwind (.grid > div.p-4)
-    document.querySelectorAll('.grid > div.p-4').forEach(producto => {
+    // Tarjetas Bootstrap (.product-card)
+    document.querySelectorAll('.product-card').forEach(producto => {
         const btn = producto.querySelector('button[aria-label="Añadir"]');
         if (!btn || btn.textContent.trim() !== '+' || btn.dataset.initialized) return;
         btn.dataset.initialized = 'true';
@@ -1542,7 +1580,7 @@ function inicializarProductos() {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             const nombre = producto.querySelector('p')?.textContent?.trim();
-            const precioTexto = producto.querySelector('span.font-bold')
+            const precioTexto = producto.querySelector('span.fw-bold')
                 ?.textContent?.replace('S/', '').replace(',', '').trim();
             const precio = parseFloat(precioTexto);
             const productoId = producto.querySelector('[data-producto-id]')?.dataset?.productoId
@@ -1550,7 +1588,7 @@ function inicializarProductos() {
 
             if (nombre && !isNaN(precio)) {
                 agregarAlCarrito(nombre, precio, productoId);
-                flashBoton(btn, 'bg-yellow-500', 'bg-green-500');
+                flashBoton(btn, 'btn-agregar', 'btn-agregar');
             }
         });
     });
@@ -1726,18 +1764,18 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
         overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.15); display: none;
     `;
     wrapper.appendChild(dropdown);
- 
+
     input.addEventListener('input', function () {
         const query = this.value.toLowerCase().trim();
         dropdown.innerHTML = '';
         if (!query) { dropdown.style.display = 'none'; return; }
- 
+
         const resultados = [];
-        document.querySelectorAll('.grid > div.p-4').forEach(p => {
+        document.querySelectorAll('.product-card').forEach(p => {
             const enlace = p.querySelector('a[href*="/producto/"]');
             const nombre = p.querySelector('a[href*="/producto/"] p, a[href*="/producto/"] + a p')?.textContent?.trim()
                         || p.querySelector('p')?.textContent?.trim();
-            const precio = p.querySelector('span.font-bold')?.textContent?.trim();
+            const precio = p.querySelector('span.fw-bold')?.textContent?.trim();
             const url = enlace?.href || null;
             if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio, url });
         });
@@ -1748,7 +1786,7 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
             const url = enlace?.href || null;
             if (nombre && nombre.toLowerCase().includes(query)) resultados.push({ nombre, precio, url });
         });
- 
+
         if (!resultados.length) {
             dropdown.innerHTML = `<div style="padding:12px 16px;color:var(--text-primary);opacity:0.6;">Sin resultados para "${query}"</div>`;
         } else {
@@ -1772,9 +1810,8 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
         }
         dropdown.style.display = 'block';
     });
- 
+
     document.addEventListener('click', e => {
         if (!wrapper.contains(e.target)) dropdown.style.display = 'none';
     });
 });
-
