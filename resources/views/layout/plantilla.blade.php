@@ -71,16 +71,28 @@
 
                 @if(session('usuario') && session('usuario') !== 'invitado')
                 <div class="dropdown-menu-hover">
-                    <a href="{{ route('cuenta') }}">
+                    {{-- Enlace Mi Cuenta --}}
+                    <a href="{{ route('cuenta') }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; text-decoration: none; color: var(--text-primary);">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                         Mi cuenta
                     </a>
-                    <div style="border-top:1px solid var(--border-color);"></div>
-                    <form method="POST" action="{{ route('logout') }}">
+
+                    {{-- NUEVO: Enlace Mis Pedidos --}}
+                    <a href="{{ route('mis.pedidos') }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; text-decoration: none; color: var(--text-primary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        Mis pedidos
+                    </a>
+
+                    <div style="border-top:1px solid var(--border-color); margin: 8px 0;"></div>
+
+                    {{-- Botón Cerrar Sesión --}}
+                    <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf
-                        <button type="submit">
+                        <button type="submit" style="background: none; border: none; padding: 0; display: flex; align-items: center; gap: 8px; color: #dc3545; width: 100%; text-align: left; cursor: pointer;">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
@@ -150,14 +162,21 @@
             <div class="mb-3">
                 @if(session('usuario') && session('usuario') !== 'invitado')
                     <a href="{{ route('cuenta') }}" class="d-flex align-items-center p-3 rounded text-decoration-none mb-1"
-                       style="color:var(--text-primary);">
+                    style="color:var(--text-primary);">
                         <span class="fw-semibold" data-translate="nav.account">Mi Cuenta</span>
                     </a>
+
+                    {{-- NUEVO: Enlace Mis Pedidos Móvil --}}
+                    <a href="{{ route('mis.pedidos') }}" class="d-flex align-items-center p-3 rounded text-decoration-none mb-1"
+                    style="color:var(--text-primary);">
+                        <span class="fw-semibold">Mis Pedidos</span>
+                    </a>
+
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="d-flex align-items-center p-3 rounded w-100 border-0 text-start mb-1"
                                 style="background:none;color:var(--text-primary);">
-                            <span class="fw-semibold">Cerrar sesión</span>
+                            <span class="fw-semibold text-danger">Cerrar sesión</span>
                         </button>
                     </form>
                 @else

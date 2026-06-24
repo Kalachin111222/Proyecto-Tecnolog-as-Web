@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarritoController;
@@ -13,8 +14,9 @@ use App\Http\Controllers\HeladosController;
 use App\Http\Controllers\DespensaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ModeradorController;
-use App\Http\Controllers\NosotrosController; 
+use App\Http\Controllers\NosotrosController;
 use App\Models\Producto;
+use App\Http\Controllers\PedidoController;
 
 Route::get('/', function () {
     if (!session('usuario')) {
@@ -59,3 +61,8 @@ Route::get('/helados',  [HeladosController::class,  'webhelados'])->name('helado
 Route::get('/despensa', [DespensaController::class, 'webdespensa'])->name('despensa');
 
 Route::get('/producto/{slug}', [ProductoController::class, 'show'])->name('producto');
+
+Route::get('/checkout', [PedidoController::class, 'checkout'])->name('checkout');
+Route::post('/procesar-compra', [PedidoController::class, 'procesarCompra'])->name('procesar.compra');
+Route::get('/boleta/{codigo_pedido}', [PedidoController::class, 'verBoleta'])->name('boleta');
+Route::get('/mis-pedidos', [App\Http\Controllers\PedidoController::class, 'misPedidos'])->name('mis.pedidos');

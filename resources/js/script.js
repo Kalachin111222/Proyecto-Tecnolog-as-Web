@@ -1764,6 +1764,7 @@ window.exportarDatos = exportarDatos;
 window.cambiarTema  = cambiarTema;
 window.cerrarSesion = cerrarSesion;
 window.limpiarCarritoInvitado = limpiarCarritoInvitado;
+window.procesarCompra = procesarCompra;
 
 
 // ═══════════════════════════════════════════════════════════════
@@ -1845,3 +1846,52 @@ document.querySelectorAll('.caja-busqueda').forEach(input => {
         if (!wrapper.contains(e.target)) dropdown.style.display = 'none';
     });
 });
+
+async function procesarCompra() {
+    // 1. Validar que el usuario esté autenticado
+    if (!esAutenticado()) {
+        alert('Debes iniciar sesión con tu cuenta para poder realizar una compra.');
+        window.location.href = '/login';
+        return;
+    }
+
+    const btn = document.getElementById('btn-procesar-compra');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Procesando... ⏳';
+    }
+
+    try {
+        // 2. Enviar la petición al backend
+        const response = await fetch('/procesar-compra', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': window.APP.csrfToken // Asegúrate de que este token esté disponible en tu plantilla
+            }
+        });
+
+        const data = await response.json();
+
+        // 3. Manejar la respuesta
+        if (response.ok) {
+            // ¡Éxito!
+            alert(`✅ ${data.mensaje}\nTu número de pedido es: ${data.codigo_pedido}`);
+
+            // Recargamos el carrito visualmente para que aparezca vacío
+            await cargarCarrito();
+            await actualizarTotalCarrito();
+        } else {
+            // Error (ej: sin stock o carrito vacío)
+            alert(`❌ No se pudo procesar: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+        alert('Ocurrió un error de conexión al intentar procesar tu compra.');
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Confirmar Compra';
+        }
+    }
+}

@@ -31,7 +31,17 @@
                 data-translate="cartPage.continueShopping">
             Continuar Comprando
         </button>
+
+        {{-- NUEVO BOTÓN DE PAGO --}}
+        <a href="{{ route('checkout') }}"
+            class="btn fw-bold text-white flex-fill text-decoration-none d-flex align-items-center justify-content-center"
+            style="background-color:#16a34a; transition:filter .2s;"
+            onmouseover="this.style.filter='brightness(.9)'"
+            onmouseout="this.style.filter='brightness(1)'">
+            Proceder al Pago
+        </a>
     </div>
+
 </main>
 
 @endsection
