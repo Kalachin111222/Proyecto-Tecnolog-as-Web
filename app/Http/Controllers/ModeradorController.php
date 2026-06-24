@@ -19,7 +19,14 @@ class ModeradorController extends Controller
     {
         $this->checkAdmin();
         $productos = Producto::orderBy('categoria')->orderBy('nombre')->get();
-        return view('moderador', compact('productos'));
+
+        // Importa el modelo Pedido con alias o usa la ruta completa
+        $pedidos = \App\Models\Pedido::with('user', 'detalles.producto')
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+
+        // Asegúrate de que la vista se llame 'admin'
+        return view('admin', compact('productos', 'pedidos'));
     }
 
     public function store(Request $request)

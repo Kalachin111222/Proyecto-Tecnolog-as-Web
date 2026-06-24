@@ -87,17 +87,17 @@
                         Mis pedidos
                     </a>
 
-                    <div style="border-top:1px solid var(--border-color); margin: 10px 0 6px 0;"></div>
+                    <div style="border-top:1px solid var(--border-color); margin: 8px 0;"></div>
 
-                    {{-- Botón Cerrar Sesión Corregido --}}
-                    <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
+                    
+                    <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf
-                        <button type="submit" class="w-100 text-start bg-transparent border-0 text-danger" style="display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; font-size: inherit; font-family: inherit;">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width:16px; height:16px; flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #dc3545; cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px; flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
                             <span style="line-height: 1;">Cerrar sesión</span>
-                        </button>
+                        </a>
                     </form>
                 </div>
                 @endif

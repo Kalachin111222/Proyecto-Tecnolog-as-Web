@@ -40,6 +40,8 @@ Route::get('/moderador',             [ModeradorController::class, 'index'])->nam
 Route::post('/moderador/productos',  [ModeradorController::class, 'store'])->name('moderador.store');
 Route::put('/moderador/productos/{id}',    [ModeradorController::class, 'update'])->name('moderador.update');
 Route::delete('/moderador/productos/{id}', [ModeradorController::class, 'destroy'])->name('moderador.destroy');
+// En web.php
+Route::get('/admin', [ModeradorController::class, 'index'])->name('admin.panel');
 
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
 
