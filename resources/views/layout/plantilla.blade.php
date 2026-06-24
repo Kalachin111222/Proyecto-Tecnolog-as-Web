@@ -103,8 +103,8 @@
                     <span id="carrito-total" data-translate="nav.cart">Carrito (S/ 0.00)</span>
                 </a>
 
-                {{-- Preview carrito --}}
-                <div id="carrito-preview">
+                {{-- Preview carrito (AQUÍ ESTÁ EL CAMBIO DE ESTILOS) --}}
+                <div id="carrito-preview" class="shadow rounded-3" style="display:none; position:absolute; right:0; top:100%; background:var(--bg-card); z-index:1000; width:320px; border:1px solid var(--border-color);">
                     <div class="p-3 fw-semibold small border-bottom" style="color:var(--text-primary);border-color:var(--border-color)!important;">
                         🛒 Productos en el carrito
                     </div>
@@ -117,7 +117,7 @@
                     </div>
                     <div class="p-3 pt-0">
                         <a href="{{ route('carrito') }}" class="d-block w-100 text-center py-2 rounded text-decoration-none text-white small fw-semibold"
-                           style="background-color:var(--accent-color);">Ver carrito completo</a>
+                        style="background-color:var(--accent-color);">Ver carrito completo</a>
                     </div>
                 </div>
             </div>

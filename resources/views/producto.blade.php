@@ -44,8 +44,8 @@
                 <p class="lh-base mb-0" style="color:var(--text-secondary);">{{ $producto->descripcion }}</p>
 
                 <button data-producto-id="{{ $producto->id }}"
-                        onclick="agregarAlCarrito('{{ addslashes($producto->nombre) }}', {{ $producto->precio }}, {{ $producto->id }})"
-                        class="btn rounded-pill fw-bold text-black px-4 py-2 align-self-start"
+                onclick="agregarAlCarrito('{{ addslashes($producto->nombre) }}', {{ $producto->precio }}, {{ $producto->id }}, '{{ asset($producto->imagen) }}')"
+                class="btn rounded-pill fw-bold text-black px-4 py-2 align-self-start"
                         style="background-color:var(--btnAgregar);transition:filter .2s;"
                         onmouseover="this.style.filter='brightness(.9)'"
                         onmouseout="this.style.filter='brightness(1)'">

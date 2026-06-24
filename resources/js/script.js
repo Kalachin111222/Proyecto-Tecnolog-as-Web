@@ -512,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initHamburgerMenu();
 
         new SmoothScroll();
-        new HeaderEffects();
         new PerformanceOptimizer();
 
         const debouncedResize = debounce(() => {
@@ -1291,20 +1290,29 @@ async function obtenerCarrito() {
     return obtenerCarritoLocal();
 }
 
+
 // ── agregarAlCarrito ──
-async function agregarAlCarrito(nombre, precio, productoId) {
+async function agregarAlCarrito(nombre, precio, productoId, imagen = '/imagenes/Nosotros.png') {
     if (esAutenticado()) {
-        const id = productoId
-            || document.querySelector('[data-producto-id]')?.dataset?.productoId;
+        const id = productoId || document.querySelector('[data-producto-id]')?.dataset?.productoId;
         if (!id) return;
         await apiCarrito('POST', '/carrito/items', { producto_id: parseInt(id) });
     } else {
         const carrito = obtenerCarritoLocal();
-        const existente = carrito.find(i => i.nombre === nombre);
-        if (existente && existente.cantidad <= i.stock) {
+        const existente = carrito.find(item => item.nombre === nombre);
+
+        if (existente) {
             existente.cantidad += 1;
         } else {
-            carrito.push({ nombre, precio: parseFloat(precio), cantidad: 1 });
+            // Asegurar que el precio siempre sea un número válido
+            let precioLimpio = typeof precio === 'string' ? parseFloat(precio.replace(/[^\d.]/g, '')) : parseFloat(precio);
+
+            carrito.push({
+                nombre: nombre,
+                precio: isNaN(precioLimpio) ? 0 : precioLimpio,
+                cantidad: 1,
+                imagen: imagen // Guardamos la imagen
+            });
         }
         guardarCarritoLocal(carrito);
     }
@@ -1330,17 +1338,20 @@ async function actualizarTotalCarrito() {
 // ── Preview hover del carrito ──
 function inicializarPreviewCarrito() {
     const previewEl = document.getElementById('carrito-preview');
-    if (!previewEl) return;
-    const wrapper = previewEl.closest('.carrito-preview-wrapper');
-    if (!wrapper) return;
+    // Búsqueda más flexible del contenedor padre
+    const wrapper = document.querySelector('.carrito-preview-wrapper') || (previewEl ? previewEl.parentElement : null);
+
+    if (!previewEl || !wrapper) {
+        console.warn('Sistema: No se detectó la caja del mini-carrito en esta página.');
+        return;
+    }
 
     let hideTimeout;
-    let dataLoaded = false;
 
     function mostrar() {
         clearTimeout(hideTimeout);
         previewEl.style.display = 'block';
-        if (!dataLoaded) cargarDatosPreview();
+        cargarDatosPreview();
     }
 
     function ocultar() {
@@ -1350,13 +1361,16 @@ function inicializarPreviewCarrito() {
     async function cargarDatosPreview() {
         const itemsEl = document.getElementById('carrito-preview-items');
         const totalEl = document.getElementById('carrito-preview-total');
-        if (!itemsEl || !totalEl) return;
+
+        if (!itemsEl || !totalEl) {
+            console.error('Error visual: Faltan los IDs "carrito-preview-items" o "carrito-preview-total" en tu archivo plantilla.blade.php');
+            return; // Se rinde porque no sabe dónde dibujar los datos
+        }
 
         try {
             const carrito = await obtenerCarrito();
-            dataLoaded = true;
 
-            if (!carrito || !carrito.length) {
+            if (!carrito || carrito.length === 0) {
                 itemsEl.innerHTML = '<p class="text-center small py-4" style="color:var(--text-secondary);">El carrito está vacío</p>';
                 totalEl.textContent = 'S/ 0.00';
                 return;
@@ -1364,23 +1378,31 @@ function inicializarPreviewCarrito() {
 
             let html = '', total = 0;
             carrito.forEach(item => {
-                const subtotal = (item.precio || 0) * (item.cantidad || 1);
+                const precio = parseFloat(item.precio) || 0;
+                const cantidad = parseInt(item.cantidad) || 1;
+                const subtotal = precio * cantidad;
                 total += subtotal;
+
+                const imgSrc = item.imagen ? item.imagen : '/imagenes/Nosotros.png';
+
                 html += `
                     <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom" style="border-color:var(--border-color);">
-                        <img src="${item.imagen || ''}" alt="${item.nombre}"
+                        <img src="${imgSrc}" alt="${item.nombre}"
                              style="width:40px;height:40px;object-fit:contain;border-radius:4px;"
-                             onerror="this.style.display='none'">
+                             onerror="this.src='/imagenes/Nosotros.png'">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="mb-0 small fw-medium text-truncate" style="color:var(--text-primary);">${item.nombre}</p>
-                            <p class="mb-0 small" style="color:var(--text-secondary);">x${item.cantidad} &nbsp; S/ ${subtotal.toFixed(2)}</p>
+                            <p class="mb-0 small fw-medium text-truncate" style="color:var(--text-primary); text-align:left;">${item.nombre}</p>
+                            <p class="mb-0 small text-start" style="color:var(--text-secondary);">x${cantidad} &nbsp; <span class="fw-bold">S/ ${subtotal.toFixed(2)}</span></p>
                         </div>
                     </div>`;
             });
+
             itemsEl.innerHTML = html;
             totalEl.textContent = 'S/ ' + total.toFixed(2);
+
         } catch (err) {
-            itemsEl.innerHTML = '<p class="text-center small py-4" style="color:var(--text-secondary);">Error al cargar el carrito</p>';
+            console.error("Error cargando los datos del mini-carrito:", err);
+            itemsEl.innerHTML = '<p class="text-center small py-4 text-danger">Error al cargar el carrito</p>';
         }
     }
 
@@ -1421,40 +1443,45 @@ async function cargarCarrito() {
     const carrito = await obtenerCarrito();
 
     if (!carrito.length) {
-        carritoItems.innerHTML = '<p class="carrito-vacio">No tienes productos en el carrito.</p>';
+        carritoItems.innerHTML = '<p class="text-center my-5 text-muted">Tu carrito está vacío.</p>';
         if (totalFinal) totalFinal.textContent = 'Total: S/ 0.00';
         return;
     }
 
     let html = '', total = 0;
     carrito.forEach((item, index) => {
-        const subtotal = item.precio * item.cantidad;
+        // Parseo seguro para evitar "NaN"
+        const precio = parseFloat(item.precio) || 0;
+        const cantidad = parseInt(item.cantidad) || 1;
+        const subtotal = precio * cantidad;
         total += subtotal;
-        const itemId = item.id ?? index; // id BD para autenticados, índice para invitados
+
+        const itemId = item.id ?? index;
+        const imgSrc = item.imagen ? item.imagen : '/imagenes/Nosotros.png';
+
         html += `
-            <div class="carrito-item">
-                <div class="item-info">
-                    <h4>${item.nombre}</h4>
-                    <p>Precio: S/ ${item.precio.toFixed(2)}</p>
+            <div class="carrito-item d-flex align-items-center gap-3 p-3 border rounded mb-3 shadow-sm" style="background-color: var(--bg-card);">
+                <img src="${imgSrc}" alt="${item.nombre}" style="width:80px;height:80px;object-fit:contain;border-radius:8px;">
+                <div class="item-info flex-grow-1">
+                    <h4 class="fs-6 fw-bold mb-1" style="color:var(--text-primary);">${item.nombre}</h4>
+                    <p class="mb-0 small" style="color:var(--text-secondary);">Precio: S/ ${precio.toFixed(2)}</p>
                 </div>
-                <div class="item-cantidad">
-                    <button onclick="cambiarCantidad('${itemId}', -1, ${item.cantidad})"
-                            style="display:flex;align-items:center;justify-content:center;">-</button>
-                    <span>${item.cantidad}</span>
-                    <button onclick="cambiarCantidad('${itemId}', 1, ${item.cantidad})"
-                            style="display:flex;align-items:center;justify-content:center;">+</button>
+                <div class="item-cantidad d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-secondary px-2 py-0 fs-5" onclick="cambiarCantidad('${itemId}', -1, ${cantidad})">-</button>
+                    <span class="fw-bold" style="color:var(--text-primary);">${cantidad}</span>
+                    <button class="btn btn-sm btn-outline-secondary px-2 py-0 fs-5" onclick="cambiarCantidad('${itemId}', 1, ${cantidad})">+</button>
                 </div>
-                <div class="item-subtotal"><p>S/ ${subtotal.toFixed(2)}</p></div>
-                <button onclick="eliminarItem('${itemId}')" class="btn-eliminar"
-                        style="display:flex;align-items:center;justify-content:center;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                <div class="item-subtotal fw-bold px-3" style="color:var(--text-primary);">
+                    S/ ${subtotal.toFixed(2)}
+                </div>
+                <button onclick="eliminarItem('${itemId}')" class="btn btn-danger btn-sm p-2 d-flex align-items-center justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                     </svg>
                 </button>
             </div>`;
     });
+
     carritoItems.innerHTML = html;
     if (totalFinal) totalFinal.textContent = `Total: S/ ${total.toFixed(2)}`;
 }
@@ -1580,14 +1607,17 @@ function inicializarProductos() {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             const nombre = producto.querySelector('p')?.textContent?.trim();
-            const precioTexto = producto.querySelector('span.fw-bold')
-                ?.textContent?.replace('S/', '').replace(',', '').trim();
+            // Mejor regex para limpiar cualquier letra o símbolo y dejar solo los números
+            const precioTexto = producto.querySelector('span.fw-bold')?.textContent?.replace(/[^\d.]/g, '');
             const precio = parseFloat(precioTexto);
-            const productoId = producto.querySelector('[data-producto-id]')?.dataset?.productoId
-                            || btn.dataset?.productoId;
+            const productoId = producto.querySelector('[data-producto-id]')?.dataset?.productoId || btn.dataset?.productoId;
+
+            // CAPTURAR LA IMAGEN
+            const imagen = producto.querySelector('img')?.getAttribute('src') || '';
 
             if (nombre && !isNaN(precio)) {
-                agregarAlCarrito(nombre, precio, productoId);
+                // Añadimos la variable imagen aquí
+                agregarAlCarrito(nombre, precio, productoId, imagen);
                 flashBoton(btn, 'btn-agregar', 'btn-agregar');
             }
         });
