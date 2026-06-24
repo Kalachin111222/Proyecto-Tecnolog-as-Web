@@ -31,16 +31,22 @@
             </a>
         </div>
 
-        {{-- Columna 2: Buscador (solo desktop) --}}
-        <div class="d-none d-md-flex flex-grow-1 justify-content-center mx-4" style="max-width:640px;">
-            <div class="position-relative w-100">
-                <input type="search" data-translate="nav.search" placeholder="Buscar productos..."
-                    class="caja-busqueda w-100">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;position:absolute;left:12px;top:50%;transform:translateY(-50%);" class="text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
+        {{-- Buscador Escritorio con Dropdown en Vivo --}}
+        <div class="position-relative w-100 mx-auto" style="max-width: 600px;" id="contenedor-buscador-escritorio">
+            <form action="{{ route('buscar') }}" method="GET" class="w-100 m-0">
+                <input type="search" name="q" id="input-buscador-escritorio" autocomplete="off" placeholder="Buscar productos..." class="caja-busqueda w-100">
+                <button type="submit" style="background:none; border:none; position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index: 10;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;" class="text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </form>
+
+            {{-- Contenedor del Dropdown (Escritorio) --}}
+            <div id="resultados-escritorio" class="position-absolute w-100 bg-white border rounded shadow-sm d-none" style="top: 100%; left: 0; z-index: 1050; max-height: 300px; overflow-y: auto;">
             </div>
         </div>
+
 
         {{-- Columna 3: Cuenta y Carrito (solo desktop) --}}
         <div class="d-none d-md-flex align-items-center gap-4 text-white">
@@ -89,7 +95,7 @@
 
                     <div style="border-top:1px solid var(--border-color); margin: 8px 0;"></div>
 
-                    
+
                     <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf
                         <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #dc3545; cursor: pointer;">
@@ -145,16 +151,19 @@
         </div>
         <div class="offcanvas-body">
 
-            {{-- Buscador móvil --}}
-            <div class="mb-4">
-                <div class="position-relative">
-                    <input type="search" aria-label="Buscar productos" data-translate="nav.search"
-                           placeholder="Buscar productos..."
-                           class="form-control ps-5"
-                           style="background-color:var(--bg-primary);color:var(--text-primary);border-color:var(--border-color);">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;position:absolute;left:12px;top:50%;transform:translateY(-50%);" class="text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
+            {{-- Buscador Móvil con Dropdown en Vivo --}}
+            <div class="mb-4 position-relative" id="contenedor-buscador-movil">
+                <form action="{{ route('buscar') }}" method="GET" class="m-0">
+                    <input type="search" name="q" id="input-buscador-movil" autocomplete="off" placeholder="Buscar productos..." class="form-control ps-5" style="background-color:var(--bg-primary);color:var(--text-primary);border-color:var(--border-color);">
+                    <button type="submit" style="background:none; border:none; position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index: 10;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;" class="text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                </form>
+
+                {{-- Contenedor del Dropdown (Móvil) --}}
+                <div id="resultados-movil" class="position-absolute w-100 bg-white border rounded shadow-sm d-none" style="top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;">
                 </div>
             </div>
 
@@ -277,6 +286,67 @@
         rol: '{{ session('rol') ?? '' }}',
         csrfToken: '{{ csrf_token() }}'
     };
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función reutilizable para instanciar el buscador
+            function iniciarBuscadorEnVivo(inputId, resultadosId, contenedorId) {
+                const input = document.getElementById(inputId);
+                const cajaResultados = document.getElementById(resultadosId);
+                const contenedor = document.getElementById(contenedorId);
+
+                if (!input || !cajaResultados) return;
+
+                let timeoutBusqueda;
+
+                input.addEventListener('input', function() {
+                    clearTimeout(timeoutBusqueda); // Evita saturar la base de datos
+                    let query = this.value.trim();
+
+                    if (query.length < 2) {
+                        cajaResultados.classList.add('d-none');
+                        return;
+                    }
+
+                    timeoutBusqueda = setTimeout(() => {
+                        fetch(`/api/buscar-en-vivo?q=${encodeURIComponent(query)}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                cajaResultados.innerHTML = '';
+
+                                if (data.length > 0) {
+                                    data.forEach(producto => {
+                                        let precio = parseFloat(producto.precio).toFixed(2);
+                                        let item = `
+                                            <a href="/producto/${producto.slug}" class="d-flex justify-content-between align-items-center p-2 text-decoration-none border-bottom" style="color: var(--text-primary); transition: background 0.2s;" onmouseover="this.style.background='var(--border-color)'" onmouseout="this.style.background='transparent'">
+                                                <span class="text-truncate" style="font-size: 0.85rem;">${producto.nombre}</span>
+                                                <span class="fw-bold" style="color: var(--btnAgregar); font-size: 0.85rem;">S/ ${precio}</span>
+                                            </a>
+                                        `;
+                                        cajaResultados.innerHTML += item;
+                                    });
+                                    cajaResultados.classList.remove('d-none');
+                                } else {
+                                    cajaResultados.innerHTML = `<div class="p-2 text-muted small text-center">No se encontraron productos</div>`;
+                                    cajaResultados.classList.remove('d-none');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }, 300); // Espera 300ms después de que el usuario deja de escribir
+                });
+
+                // Ocultar al hacer clic fuera
+                document.addEventListener('click', function(event) {
+                    if (contenedor && !contenedor.contains(event.target)) {
+                        cajaResultados.classList.add('d-none');
+                    }
+                });
+            }
+
+            // Inicializamos ambos buscadores
+            iniciarBuscadorEnVivo('input-buscador-escritorio', 'resultados-escritorio', 'contenedor-buscador-escritorio');
+            iniciarBuscadorEnVivo('input-buscador-movil', 'resultados-movil', 'contenedor-buscador-movil');
+        });
     </script>
 </body>
 </html>

@@ -23,6 +23,31 @@
                         <option value="Efectivo al recibir">Efectivo al recibir</option>
                     </select>
 
+                    <div id="qr-container" class="mt-3 p-3 text-center border rounded d-none" style="background-color: var(--bg-secondary);">
+                        <p class="small mb-2">Escanea para pagar con Yape:</p>
+                        <img src="{{ asset('imagenes/qr-yape.jpg') }}" alt="QR Yape" style="width: 150px; height: 150px;">
+                        <p class="mt-2 fw-bold small">Número: 959 957 132</p>
+                    </div>
+
+                    <div id="datos-tarjeta" class="mt-3 p-3 border rounded shadow-sm d-none" style="background-color: var(--bg-secondary);">
+                        <h6 class="mb-3 fw-bold" style="color:var(--text-primary);">💳 Datos de la Tarjeta</h6>
+                        <div class="mb-2">
+                            <input type="text" class="form-control" placeholder="Número de Tarjeta (ej. 4500 1234 5678 9012)" maxlength="16">
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="col-6">
+                                <input type="password" class="form-control" placeholder="CVV" maxlength="4">
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Titular de la tarjeta">
+                        </div>
+                        <small class="text-muted mt-2 d-block">Tus datos están encriptados y seguros de forma local.</small>
+                    </div>
+
                     <button type="button" onclick="procesarPago()" class="btn w-100 fw-bold text-white py-2" style="background-color:#16a34a;">
                         Pagar S/ {{ number_format($total, 2) }}
                     </button>
@@ -78,5 +103,20 @@ async function procesarPago() {
         alert("Ocurrió un error de conexión.");
     }
 }
+document.getElementById('metodo_pago').addEventListener('change', function() {
+    const qr = document.getElementById('qr-container');
+    const tarjeta = document.getElementById('datos-tarjeta');
+
+    // Ocultar todo primero
+    if(qr) qr.classList.add('d-none');
+    if(tarjeta) tarjeta.classList.add('d-none');
+
+    // Mostrar según lo que elija el cliente
+    if (this.value === 'Yape / Plin' && qr) {
+        qr.classList.remove('d-none');
+    } else if (this.value === 'Tarjeta de Crédito/Débito' && tarjeta) {
+        tarjeta.classList.remove('d-none');
+    }
+});
 </script>
 @endsection

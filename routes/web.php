@@ -68,3 +68,8 @@ Route::get('/checkout', [PedidoController::class, 'checkout'])->name('checkout')
 Route::post('/procesar-compra', [PedidoController::class, 'procesarCompra'])->name('procesar.compra');
 Route::get('/boleta/{codigo_pedido}', [PedidoController::class, 'verBoleta'])->name('boleta');
 Route::get('/mis-pedidos', [App\Http\Controllers\PedidoController::class, 'misPedidos'])->name('mis.pedidos');
+Route::put('/admin/pedidos/{id}/estado', [App\Http\Controllers\PedidoController::class, 'actualizarEstado'])->name('admin.pedidos.estado');
+Route::get('/buscar', [App\Http\Controllers\ProductoController::class, 'buscar'])->name('buscar');
+
+// Ruta para el buscador en tiempo real (AJAX)
+Route::get('/api/buscar-en-vivo', [App\Http\Controllers\ProductoController::class, 'buscarEnVivo'])->name('api.buscar');

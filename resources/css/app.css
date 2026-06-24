@@ -496,25 +496,6 @@ footer { margin-top: auto; }
 }
 
 /* =========================================
-   13. WHATSAPP FLOAT
-   ========================================= */
-.whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px) scale(0.8);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.whatsapp-float.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
-
-/* =========================================
    14. OFFCANVAS — overrides dark mode
    ========================================= */
 .offcanvas {
@@ -522,4 +503,69 @@ footer { margin-top: auto; }
 }
 .offcanvas .offcanvas-title {
     color: var(--text-primary);
+}
+
+/* =========================================
+   BOTÓN WHATSAPP FLOTANTE
+   ========================================= */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    /* Inicia un poco más abajo y pequeño */
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* El script le añade esta clase al hacer scroll */
+.whatsapp-float.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.whatsapp-float a {
+    display: flex;
+    align-items: center;
+    background-color: #25D366; /* Verde oficial de WhatsApp */
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.whatsapp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whatsapp-text {
+    max-width: 0;
+    opacity: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: all 0.4s ease;
+    padding-left: 0;
+}
+
+/* El script le añade esta clase al hacer hover */
+.whatsapp-float.hover a {
+    background-color: #20ba56;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Expande el texto de "WhatsApp" al pasar el mouse */
+.whatsapp-float.hover .whatsapp-text {
+    max-width: 100px;
+    opacity: 1;
+    padding-left: 8px;
 }

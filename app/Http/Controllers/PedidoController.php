@@ -55,7 +55,7 @@ class PedidoController extends Controller
                 'user_id' => $userId,
                 'codigo_pedido' => 'PED-' . strtoupper(Str::random(6)),
                 'total' => $total,
-                'estado' => 'pagado',
+                'estado' => 'pendiente',
                 'metodo_pago' => $request->metodo_pago, // AHORA ES DINÁMICO
                 'direccion_envio' => $request->direccion // AHORA ES DINÁMICO
             ]);
@@ -110,5 +110,12 @@ class PedidoController extends Controller
                         ->get();
 
         return view('mis_pedidos', compact('pedidos'));
+    }
+    public function actualizarEstado(Request $request, $id)
+    {
+        $request->validate(['estado' => 'required|string']);
+        $pedido = \App\Models\Pedido::findOrFail($id);
+        $pedido->update(['estado' => $request->estado]);
+        return back()->with('success', 'Estado del pedido actualizado.');
     }
 }
