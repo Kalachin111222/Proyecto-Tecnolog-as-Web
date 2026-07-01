@@ -348,5 +348,6 @@
             iniciarBuscadorEnVivo('input-buscador-movil', 'resultados-movil', 'contenedor-buscador-movil');
         });
     </script>
+    @stack('scripts')
 </body>
 </html>

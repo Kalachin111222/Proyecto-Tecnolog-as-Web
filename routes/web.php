@@ -17,6 +17,7 @@ use App\Http\Controllers\ModeradorController;
 use App\Http\Controllers\NosotrosController;
 use App\Models\Producto;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CajeroController;
 
 Route::get('/', function () {
     if (!session('usuario')) {
@@ -73,3 +74,9 @@ Route::get('/buscar', [App\Http\Controllers\ProductoController::class, 'buscar']
 
 // Ruta para el buscador en tiempo real (AJAX)
 Route::get('/api/buscar-en-vivo', [App\Http\Controllers\ProductoController::class, 'buscarEnVivo'])->name('api.buscar');
+
+// Ruta del panel de cajero
+Route::get('/cajero', [CajeroController::class, 'index'])->name('cajero.panel');
+Route::get('/cajero/buscar', [CajeroController::class, 'buscarProducto'])->name('cajero.buscar');
+Route::post('/cajero/venta', [CajeroController::class, 'procesarVenta'])->name('cajero.venta');
+

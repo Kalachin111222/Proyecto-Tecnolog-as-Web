@@ -40,9 +40,11 @@ class ProductoController extends Controller
             return response()->json([]);
         }
 
+        // Buscamos por nombre, categoría o CÓDIGO DE BARRAS
         $productos = \App\Models\Producto::where('nombre', 'LIKE', "%{$query}%")
                                         ->orWhere('categoria', 'LIKE', "%{$query}%")
-                                        ->take(5) // Solo mostramos 5 coincidencias rápidas
+                                        ->orWhere('codigo_barras', $query) // <--- ¡Esta es la línea mágica!
+                                        ->take(10) // Subimos a 10 por si acaso
                                         ->get();
 
         return response()->json($productos);

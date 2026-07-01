@@ -644,9 +644,15 @@ class EnhancedCarousel {
         this.indicatorTransitionDuration = 300;
         this.carousel = document.getElementById('carousel');
         this.carouselImages = document.getElementById('carouselImages');
+
+        if (!this.carousel || !this.carouselImages) {
+            return; // Si no hay carrusel en esta página, detenemos el script silenciosamente
+        }
         this.indicators = document.querySelectorAll('.indicator');
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
+
+
 
         if (!this.carousel || !this.carouselImages || !this.indicators.length) {
             console.warn('Elementos del carrusel no encontrados');
