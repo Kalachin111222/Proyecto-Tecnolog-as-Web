@@ -285,7 +285,7 @@
                     <div style="background:white; padding:20px; border-radius:10px; width:100%; max-width:500px; text-align:center;">
                         <h5 class="mb-3">Acerca el código de barras a la cámara</h5>
                         <div id="lector-qr" style="width: 100%;"></div>
-                        <button id="cerrar-camara" class="btn btn-danger mt-3">Cancelar</button>
+                        <button id="cerrar-camara" class="btn btn-danger mt-3">Cerrar cámara</button>
                     </div>
                 </div>
                 <div id="resultados-busqueda"></div>
@@ -1035,61 +1035,120 @@ document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
 
 <script>
     let html5QrcodeScanner;
+    let scannerActivo   = false; // true mientras el modal de cámara está abierto
+    let procesandoCodigo = false; // evita doble-lectura del mismo código
+    let ultimoCodigo     = null;
+    let ultimoTiempo     = 0;
 
-    const btnCamara = document.getElementById('btn-camara');
-    const modalCamara = document.getElementById('modal-camara');
+    const btnCamara       = document.getElementById('btn-camara');
+    const modalCamara     = document.getElementById('modal-camara');
     const btnCerrarCamara = document.getElementById('cerrar-camara');
 
     // Al hacer clic en "Escanear"
     btnCamara.addEventListener('click', () => {
         modalCamara.style.display = 'flex';
+        scannerActivo   = true;
+        procesandoCodigo = false;
+        ultimoCodigo    = null;
 
-        // Iniciamos el lector
+        // Iniciamos el lector. Queda abierto y sigue leyendo producto tras
+        // producto hasta que el usuario le da "Cerrar", igual que un scanner
+        // de caja de supermercado.
         html5QrcodeScanner = new Html5QrcodeScanner(
             "lector-qr",
-            { fps: 10, qrbox: {width: 250, height: 100} }, // Formato rectangular ideal para códigos de barras
+            {
+                fps: 10,
+                qrbox: { width: 280, height: 140 }, // formato rectangular, ideal para códigos de barras
+                aspectRatio: 1.7777778,
+                disableFlip: true,               // los códigos de barras no van espejados
+                rememberLastUsedCamera: true,
+                videoConstraints: {
+                    // Preferencia, no obligación: en el celular usa la trasera;
+                    // en una laptop (que solo tiene una cámara) usa esa sin problema
+                    facingMode: { ideal: "environment" }
+                }
+            },
             /* verbose= */ false
         );
 
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     });
 
-    // Cerrar cámara manualmente
+    // Cerrar cámara manualmente (único lugar donde se apaga de verdad)
     btnCerrarCamara.addEventListener('click', cerrarScanner);
 
     function cerrarScanner() {
+        scannerActivo = false;
         modalCamara.style.display = 'none';
         if (html5QrcodeScanner) {
-            html5QrcodeScanner.clear();
+            html5QrcodeScanner.clear().catch(() => {});
         }
     }
 
     // Cuando detecta un código exitosamente
     function onScanSuccess(decodedText, decodedResult) {
-        // Detiene la cámara
-        cerrarScanner();
+        const ahoraMs = Date.now();
 
-        // Escribe el código en el buscador
-        inputBuscar.value = decodedText;
+        // Evita procesar el mismo código varias veces mientras sigue
+        // dentro del cuadro (el lector dispara este evento muy seguido)
+        if (procesandoCodigo) return;
+        if (decodedText === ultimoCodigo && (ahoraMs - ultimoTiempo) < 2000) return;
 
-        // Reproduce un pequeño sonido de "Beep" de cajero (opcional)
+        procesandoCodigo = true;
+        ultimoCodigo  = decodedText;
+        ultimoTiempo  = ahoraMs;
+
+        // Pausamos el video un instante (no cerramos el lector) mientras
+        // buscamos el producto, para no leer el mismo código de nuevo
+        if (html5QrcodeScanner) {
+            try { html5QrcodeScanner.pause(true); } catch (e) {}
+        }
+
+        // Reproduce un pequeño sonido de "Beep" de cajero
         let audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-        audio.play();
+        audio.play().catch(() => {});
 
-        // Dispara la búsqueda silenciosa que ya teníamos programada
+        // Busca el producto y lo agrega al carrito
         buscarProductos(decodedText, true).then(resultados => {
             if (resultados && resultados.length > 0) {
                 agregarItem(resultados[0]);
-                inputBuscar.value = ''; // Limpiamos para el siguiente escaneo
+                mostrarFeedbackEscaneo(resultados[0].nombre, true);
             } else {
-                alert('No se encontró ningún producto con el código: ' + decodedText);
+                mostrarFeedbackEscaneo('Código no encontrado: ' + decodedText, false);
             }
+        }).finally(() => {
+            // Reanudamos el video para seguir escaneando el siguiente producto,
+            // solo si el usuario no cerró el modal mientras tanto
+            setTimeout(() => {
+                procesandoCodigo = false;
+                if (scannerActivo && html5QrcodeScanner) {
+                    try { html5QrcodeScanner.resume(); } catch (e) {}
+                }
+            }, 800);
         });
     }
 
     function onScanFailure(error) {
         // Se ejecuta constantemente mientras intenta enfocar un código.
         // No es necesario mostrar alertas aquí.
+    }
+
+    // Pequeño aviso visual dentro del modal de la cámara, para confirmar
+    // que un producto fue agregado sin tener que cerrar el escáner
+    function mostrarFeedbackEscaneo(texto, ok) {
+        let aviso = document.getElementById('camara-feedback');
+        if (!aviso) {
+            aviso = document.createElement('div');
+            aviso.id = 'camara-feedback';
+            aviso.style.marginTop = '10px';
+            aviso.style.fontWeight = '600';
+            aviso.style.fontSize = '.95rem';
+            document.querySelector('#modal-camara > div').insertBefore(
+                aviso, btnCerrarCamara
+            );
+        }
+        aviso.textContent = ok ? ('✅ Agregado: ' + texto) : ('⚠️ ' + texto);
+        aviso.style.color = ok ? 'var(--caj-green)' : '#dc3545';
     }
 </script>
 
