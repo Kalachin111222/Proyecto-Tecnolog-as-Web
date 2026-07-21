@@ -77,6 +77,8 @@ Route::get('/api/buscar-en-vivo', [App\Http\Controllers\ProductoController::clas
 
 // Ruta del panel de cajero
 Route::get('/cajero', [CajeroController::class, 'index'])->name('cajero.panel');
+Route::get('/cajero/etiquetas', [CajeroController::class, 'etiquetas'])->name('cajero.etiquetas');
 Route::get('/cajero/buscar', [CajeroController::class, 'buscarProducto'])->name('cajero.buscar');
 Route::post('/cajero/venta', [CajeroController::class, 'procesarVenta'])->name('cajero.venta');
-
+Route::post('/cajero/enviar-boleta', [CajeroController::class, 'enviarBoleta'])->name('cajero.enviarBoleta');
+Route::get('/cajero/buscar-dni', [CajeroController::class, 'buscarDni'])->name('cajero.buscarDni');

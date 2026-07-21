@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    // Consulta de DNI (RENIEC) vía apis.net.pe / Decolecta
+    'decolecta' => [
+        'token' => env('DECOLECTA_TOKEN'),
+    ],
+
 ];

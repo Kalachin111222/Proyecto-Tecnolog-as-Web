@@ -258,6 +258,9 @@
     }
 </style>
 
+{{-- ══════════════════════════════════════════
+     ESTRUCTURA HTML: Panel de caja (búsqueda, carrito, cobro)
+══════════════════════════════════════════ --}}
 <div id="cajero-wrap">
 
     {{-- ══════════════════════════════════════════
@@ -330,9 +333,20 @@
                 <label>Nombre</label>
                 <input type="text" id="cliente-nombre" placeholder="Ej: Juan Pérez">
             </div>
-            <div class="caj-field">
+            <div class="caj-field mb-2">
                 <label>DNI / RUC</label>
-                <input type="text" id="cliente-dni" placeholder="Ej: 46123456" maxlength="15">
+                <div style="display:flex;gap:.4rem;">
+                    <input type="text" id="cliente-dni" placeholder="Ej: 46123456" maxlength="15" style="flex:1;">
+                    <button type="button" id="btn-buscar-dni" title="Buscar nombre por DNI"
+                            style="border:1px solid var(--caj-border);border-radius:8px;background:#fff;padding:0 .7rem;cursor:pointer;">
+                        🔍
+                    </button>
+                </div>
+                <div id="dni-buscar-status" style="font-size:.72rem;margin-top:.25rem;min-height:1rem;"></div>
+            </div>
+            <div class="caj-field">
+                <label>Correo (para enviar boleta)</label>
+                <input type="email" id="cliente-email" placeholder="Ej: cliente@correo.com">
             </div>
         </div>
 
@@ -364,8 +378,12 @@
             <div id="panel-yape" class="pago-panel" style="display:none;margin-top:.9rem;">
                 <div style="text-align:center;padding:.6rem 0;">
                     <div style="background:#7b2d8b;color:#fff;border-radius:10px;padding:1rem;">
-                        <div style="font-size:.78rem;opacity:.8;margin-bottom:.3rem;">Yapear al número</div>
-                        <div style="font-size:1.6rem;font-weight:800;letter-spacing:.08em;">944 123 456</div>
+                        <div style="font-size:.78rem;opacity:.8;margin-bottom:.5rem;">Escanea para yapear</div>
+                        <div style="background:#fff;border-radius:8px;padding:.5rem;display:inline-block;">
+                            <img id="yape-qr-img" src="/imagenes/yape-qr.jpg" alt="QR Yape" width="150" height="150" style="display:block;object-fit:contain;">
+                        </div>
+                        <div style="font-size:.78rem;opacity:.8;margin-top:.7rem;margin-bottom:.3rem;">o yapea al número</div>
+                        <div style="font-size:1.6rem;font-weight:800;letter-spacing:.08em;">959 957 132</div>
                         <div style="font-size:.8rem;opacity:.85;margin-top:.2rem;">D'Ennita Supermercado</div>
                     </div>
                     <div id="yape-monto-display"
@@ -465,11 +483,13 @@
             ¡Gracias por su preferencia!
         </div>
 
-        <div style="display:flex;gap:.6rem;margin-top:1.2rem;justify-content:center;">
+        <div style="display:flex;gap:.6rem;margin-top:1.2rem;justify-content:center;flex-wrap:wrap;">
             <button class="btn-boleta-accion" onclick="descargarPDF()"
                     style="background:#c0392b;color:#fff;">📥 PDF</button>
             <button class="btn-boleta-accion" onclick="imprimirBoleta()"
                     style="background:#343a40;color:#fff;">🖨 Imprimir</button>
+            <button class="btn-boleta-accion" id="btn-enviar-correo" onclick="enviarPorCorreo()"
+                    style="background:#2980b9;color:#fff;">✉ Enviar por correo</button>
             <button class="btn-boleta-accion" onclick="nuevaVenta()"
                     style="background:var(--caj-accent);color:#fff;">✚ Nueva venta</button>
         </div>
@@ -477,7 +497,9 @@
     </div>
 </div>
 
-{{-- Plantilla oculta para el PDF --}}
+{{-- ══════════════════════════════════════════
+     PLANTILLA OCULTA: Contenido usado para generar el PDF de la boleta
+══════════════════════════════════════════ --}}
 <div id="boleta-pdf-template" style="display:none;">
     <div id="boleta-pdf-contenido" style="width:700px;background:white;color:black;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:30px;">
 
@@ -542,7 +564,7 @@
                     <td style="padding:6px 8px;border:1px solid #ccc;text-align:right;" id="pdf-vuelto"></td>
                 </tr>
                 <tr>
-                    <td style="font-weight:bold;padding:8px;text-align:right;border:1px solid #000;">TOTAL A PAGAR:</td>
+                    <td style="font-weight:bold;padding:8px;text-align:right;border:1px solid #000;">TOTAL A PAGAR EN SOLES:</td>
                     <td style="font-weight:bold;padding:8px;text-align:right;border:1px solid #000;background:#eee;" id="pdf-total"></td>
                 </tr>
             </table>
@@ -551,7 +573,7 @@
         {{-- Footer --}}
         <div style="margin-top:30px;text-align:center;font-size:11px;color:#555;">
             <p style="margin:0;">Representación impresa de la Boleta de Venta Electrónica — Venta presencial.</p>
-            <p style="margin:4px 0 0;">Gracias por su preferencia.</p>
+            <p style="margin:4px 0 0;">Gracias por su preferencia. Generada por Joseph Andre Rebaza Castañeda</p>
         </div>
     </div>
 </div>
@@ -760,7 +782,7 @@ function actualizarTotal() {
             total > 0 ? `Monto a yapear: ${formatoSoles(total)}` : '';
     } else if (metodo === 'tarjeta') {
         document.getElementById('tarjeta-monto-display').textContent =
-            total > 0 ? `Total a cobrar: ${formatoSoles(total)}` : '';
+            total > 0 ? `Total a cobrar en soles: ${formatoSoles(total)}` : '';
     }
     validarBotonCobrar();
 }
@@ -808,7 +830,7 @@ document.querySelectorAll('.metodo-btn').forEach(btn => {
             document.getElementById('panel-tarjeta').style.display = 'block';
             const total = calcularTotal();
             document.getElementById('tarjeta-monto-display').textContent =
-                total > 0 ? `Total a cobrar: ${formatoSoles(total)}` : '';
+                total > 0 ? `Total a cobrar en soles: ${formatoSoles(total)}` : '';
         }
 
         validarBotonCobrar();
@@ -821,6 +843,53 @@ function validarBotonCobrar() {
     const ok = items.length > 0 && metodo !== null;
     document.getElementById('btn-cobrar').disabled = !ok;
 }
+
+// ── Buscar nombre por DNI (RENIEC vía apis.net.pe / Decolecta) ─────
+
+async function buscarPorDni() {
+    const dniInput  = document.getElementById('cliente-dni');
+    const statusEl  = document.getElementById('dni-buscar-status');
+    const btn       = document.getElementById('btn-buscar-dni');
+    const dni       = dniInput.value.trim();
+
+    if (!/^\d{8}$/.test(dni)) {
+        statusEl.textContent = '⚠ Ingresa un DNI válido de 8 dígitos';
+        statusEl.style.color = '#dc3545';
+        return;
+    }
+
+    btn.disabled = true;
+    statusEl.textContent = 'Buscando…';
+    statusEl.style.color = 'var(--caj-muted)';
+
+    try {
+        const res  = await fetch('/cajero/buscar-dni?dni=' + dni);
+        const data = await res.json();
+
+        if (!res.ok || !data.ok) throw new Error(data.error || 'No se encontró el DNI');
+
+        document.getElementById('cliente-nombre').value = data.nombre;
+        statusEl.textContent = '✅ Nombre encontrado';
+        statusEl.style.color = 'var(--caj-green)';
+
+    } catch (err) {
+        statusEl.textContent = '❌ ' + err.message;
+        statusEl.style.color = '#dc3545';
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+document.getElementById('btn-buscar-dni').addEventListener('click', buscarPorDni);
+
+// Búsqueda automática al completar los 8 dígitos
+document.getElementById('cliente-dni').addEventListener('input', (e) => {
+    if (/^\d{8}$/.test(e.target.value.trim())) {
+        buscarPorDni();
+    } else {
+        document.getElementById('dni-buscar-status').textContent = '';
+    }
+});
 
 // ── Procesar cobro ────────────────────────────────────────
 
@@ -836,6 +905,7 @@ document.getElementById('btn-cobrar').addEventListener('click', async () => {
     const payload = {
         nombre_cliente: document.getElementById('cliente-nombre').value.trim(),
         dni_cliente:    document.getElementById('cliente-dni').value.trim(),
+        email_cliente:  document.getElementById('cliente-email').value.trim(),
         metodo_pago:    metodo,
         monto_pagado:   metodo === 'efectivo' ? pagado : null,
         items:          items.map(i => ({ id: i.id, cantidad: i.cantidad })),
@@ -867,7 +937,13 @@ document.getElementById('btn-cobrar').addEventListener('click', async () => {
 
 // ── Mostrar boleta ────────────────────────────────────────
 
+let ultimaVentaResp    = null;
+let ultimaVentaPayload = null;
+
 function mostrarBoleta(resp, payload) {
+    ultimaVentaResp    = resp;
+    ultimaVentaPayload = payload;
+
     // Código y fecha
     document.getElementById('boleta-codigo').textContent = resp.codigo_pedido;
     document.getElementById('boleta-fecha').textContent  = ahora();
@@ -915,6 +991,11 @@ function mostrarBoleta(resp, payload) {
 function llenarPlantillaPDF(resp, payload) {
     const labels = { efectivo: 'Efectivo', yape: 'Yape / Plin', tarjeta: 'Tarjeta' };
 
+    // Resetear filas condicionales antes de decidir cuáles mostrar
+    document.getElementById('pdf-fila-operacion').style.display = 'none';
+    document.getElementById('pdf-fila-recibido').style.display  = 'none';
+    document.getElementById('pdf-fila-vuelto').style.display    = 'none';
+
     document.getElementById('pdf-codigo').textContent    = resp.codigo_pedido;
     document.getElementById('pdf-fecha').textContent     = ahora();
     document.getElementById('pdf-cliente').textContent   = payload.nombre_cliente || 'Cliente General';
@@ -950,27 +1031,21 @@ function llenarPlantillaPDF(resp, payload) {
 
 // ── Descargar PDF ─────────────────────────────────────────
 
-// ── Descargar PDF ─────────────────────────────────────────
-
-function descargarPDF() {
+async function descargarPDF() {
     // Obtenemos el código generado automáticamente para el nombre del archivo
     const codigo = document.getElementById('pdf-codigo').textContent || 'boleta';
+    const contenedor = document.getElementById('boleta-pdf-template');
 
-    // 1. Obtenemos el HTML de la plantilla oculta del cajero
-    const contenidoHTML = document.getElementById('boleta-pdf-contenido').innerHTML;
+    // Mostramos temporalmente el contenido REAL ya estilado (cubriendo toda la pantalla
+    // en blanco) para que html2canvas lo capture de forma confiable en cualquier navegador.
+    // Clonar el HTML en un div aparte y posicionarlo fuera de pantalla (-9999px) falla
+    // en algunas computadoras porque html2canvas no calcula bien esa zona.
+    contenedor.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;display:flex;justify-content:center;padding:20px;overflow:auto;';
 
-    // 2. Creamos un contenedor temporal en la memoria
-    const elementoTemporal = document.createElement('div');
-    elementoTemporal.innerHTML = contenidoHTML;
+    // Esperamos a que el navegador termine de calcular el layout del contenido recién
+    // mostrado (venía de display:none) antes de capturarlo, si no sale cortado/incompleto
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
-    // 3. Le aplicamos los estilos corregidos para tamaño A4 (Sin usar -9999px)
-    elementoTemporal.style.width = '700px';
-    elementoTemporal.style.background = 'white';
-    elementoTemporal.style.color = 'black';
-    elementoTemporal.style.fontFamily = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-    elementoTemporal.style.padding = '20px';
-
-    // 4. Configuramos el PDF
     const opciones = {
         margin:       10,
         filename:     `Boleta_DEnnita_${codigo}.pdf`, // Automáticamente usa el código POS-XXXX
@@ -979,8 +1054,73 @@ function descargarPDF() {
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // 5. Generamos el PDF desde el contenedor temporal
-    html2pdf().set(opciones).from(elementoTemporal).save();
+    // Generamos el PDF desde el elemento real y lo ocultamos de nuevo al terminar
+    await html2pdf().set(opciones).from(document.getElementById('boleta-pdf-contenido')).save();
+    contenedor.style.cssText = 'display:none;';
+}
+
+// ── Enviar boleta por correo ────────────────────────────────
+
+async function enviarPorCorreo() {
+    let correo = (document.getElementById('cliente-email').value || '').trim();
+
+    if (!correo) {
+        correo = prompt('Ingresa el correo del cliente para enviar la boleta:');
+        if (!correo) return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+        alert('⚠ El correo ingresado no es válido.');
+        return;
+    }
+
+    const btn = document.getElementById('btn-enviar-correo');
+    const textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    try {
+        // 1. Mostramos temporalmente el contenido real para capturarlo de forma confiable
+        const contenedor = document.getElementById('boleta-pdf-template');
+        contenedor.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;display:flex;justify-content:center;padding:20px;overflow:auto;';
+
+        // Esperamos a que el navegador termine de calcular el layout antes de capturar
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+        const opciones = {
+            margin:      10,
+            image:       { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        const pdfBase64 = await html2pdf().set(opciones).from(document.getElementById('boleta-pdf-contenido')).outputPdf('datauristring');
+        contenedor.style.cssText = 'display:none;';
+
+        // 2. Enviamos al backend para que despache el correo con el PDF adjunto
+        const codigo = (ultimaVentaResp && ultimaVentaResp.codigo_pedido) || document.getElementById('pdf-codigo').textContent;
+        const res = await fetch('/cajero/enviar-boleta', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+            body: JSON.stringify({
+                correo:        correo,
+                codigo_pedido: codigo,
+                pdf_base64:    pdfBase64,
+            }),
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'No se pudo enviar el correo');
+
+        alert('✅ Boleta enviada a ' + correo);
+
+    } catch (err) {
+        alert('❌ ' + err.message);
+    } finally {
+        document.getElementById('boleta-pdf-template').style.cssText = 'display:none;';
+        btn.disabled = false;
+        btn.textContent = textoOriginal;
+    }
 }
 
 // ── Imprimir ──────────────────────────────────────────────
@@ -1002,6 +1142,8 @@ function imprimirBoleta() {
     setTimeout(() => { ventana.print(); ventana.close(); }, 500);
 }
 
+// ── Nueva venta (reset del formulario) ────────────────────
+
 function nuevaVenta() {
     items  = [];
     metodo = null;
@@ -1009,6 +1151,8 @@ function nuevaVenta() {
     document.querySelectorAll('.pago-panel').forEach(p => p.style.display = 'none');
     document.getElementById('cliente-nombre').value   = '';
     document.getElementById('cliente-dni').value      = '';
+    document.getElementById('cliente-email').value    = '';
+    document.getElementById('dni-buscar-status').textContent = '';
     document.getElementById('monto-pagado').value     = '';
     document.getElementById('vuelto-display').textContent = '';
     document.getElementById('yape-monto-display').textContent = '';
@@ -1022,6 +1166,8 @@ function nuevaVenta() {
     document.getElementById('input-buscar').focus();
 }
 
+// ── Overlay del modal de boleta ───────────────────────────
+
 // Cerrar modal al hacer clic en el overlay
 document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
     if (e.target === document.getElementById('modal-boleta-overlay')) {
@@ -1034,6 +1180,10 @@ document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
+// ══════════════════════════════════════════════════════════
+//  D'Ennita Cajero — escáner de códigos de barras / QR
+// ══════════════════════════════════════════════════════════
+
     let html5QrcodeScanner;
     let scannerActivo   = false; // true mientras el modal de cámara está abierto
     let procesandoCodigo = false; // evita doble-lectura del mismo código
@@ -1043,6 +1193,8 @@ document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
     const btnCamara       = document.getElementById('btn-camara');
     const modalCamara     = document.getElementById('modal-camara');
     const btnCerrarCamara = document.getElementById('cerrar-camara');
+
+    // ── Abrir cámara ───────────────────────────────────────
 
     // Al hacer clic en "Escanear"
     btnCamara.addEventListener('click', () => {
@@ -1074,6 +1226,8 @@ document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     });
 
+    // ── Cerrar cámara ──────────────────────────────────────
+
     // Cerrar cámara manualmente (único lugar donde se apaga de verdad)
     btnCerrarCamara.addEventListener('click', cerrarScanner);
 
@@ -1084,6 +1238,8 @@ document.getElementById('modal-boleta-overlay').addEventListener('click', e => {
             html5QrcodeScanner.clear().catch(() => {});
         }
     }
+
+    // ── Detección y procesamiento del código escaneado ─────
 
     // Cuando detecta un código exitosamente
     function onScanSuccess(decodedText, decodedResult) {

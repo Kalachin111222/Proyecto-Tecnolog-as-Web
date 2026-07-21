@@ -185,6 +185,28 @@
                             <span id="tema-texto" data-translate="account.darkMode">Modo Oscuro</span>
                         </button>
                     </div>
+                    @if(session('rol') === 'admin')
+                    <div class="col-6">
+                        <a href="{{ route('moderador') }}"
+                           class="btn d-flex flex-column align-items-center gap-2 w-100 p-3 rounded-3 border small fw-medium text-decoration-none"
+                           style="background-color:var(--bg-secondary);border-color:var(--border-color)!important;color:var(--text-primary);transition:all .2s;">
+                            <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 7h16M4 12h16M4 17h10"/>
+                            </svg>
+                            Panel de Moderador
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('cajero.panel') }}"
+                           class="btn d-flex flex-column align-items-center gap-2 w-100 p-3 rounded-3 border small fw-medium text-decoration-none"
+                           style="background-color:var(--bg-secondary);border-color:var(--border-color)!important;color:var(--text-primary);transition:all .2s;">
+                            <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 7h18M7 3v18m10-18v18"/>
+                            </svg>
+                            Panel de Cajero
+                        </a>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

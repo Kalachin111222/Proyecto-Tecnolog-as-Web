@@ -95,6 +95,20 @@
 
                     <div style="border-top:1px solid var(--border-color); margin: 8px 0;"></div>
 
+                    @if(session('rol') === 'admin')
+                    <a href="{{ route('moderador') }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; text-decoration: none; color: var(--text-primary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h10"/>
+                        </svg>
+                        Panel de Moderador
+                    </a>
+                    <a href="{{ route('cajero.panel') }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; text-decoration: none; color: var(--text-primary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M7 3v18m10-18v18"/>
+                        </svg>
+                        Panel de Cajero
+                    </a>
+                    @endif
 
                     <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf
@@ -180,6 +194,17 @@
                     style="color:var(--text-primary);">
                         <span class="fw-semibold">Mis Pedidos</span>
                     </a>
+
+                    @if(session('rol') === 'admin')
+                    <a href="{{ route('moderador') }}" class="d-flex align-items-center p-3 rounded text-decoration-none mb-1"
+                    style="color:var(--text-primary);">
+                        <span class="fw-semibold">Panel de Moderador</span>
+                    </a>
+                    <a href="{{ route('cajero.panel') }}" class="d-flex align-items-center p-3 rounded text-decoration-none mb-1"
+                    style="color:var(--text-primary);">
+                        <span class="fw-semibold">Panel de Cajero</span>
+                    </a>
+                    @endif
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

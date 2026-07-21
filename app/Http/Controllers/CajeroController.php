@@ -9,6 +9,9 @@ use App\Models\Pedido;
 use App\Models\PedidoDetalle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BoletaMail;
+use Illuminate\Support\Facades\Http;
 
 class CajeroController extends Controller
 {
@@ -21,6 +24,22 @@ class CajeroController extends Controller
         }
 
         return view('cajero');
+    }
+
+    // Página imprimible con el código de barras visual de todos los productos
+    public function etiquetas()
+    {
+        if (!in_array(session('rol'), ['admin', 'cajero'])) {
+            return redirect()->route('login');
+        }
+
+        // Solo mostramos los que ya tienen un código de barras asignado
+        $productos = Producto::whereNotNull('codigo_barras')
+            ->orderBy('categoria')
+            ->orderBy('nombre')
+            ->get(['id', 'nombre', 'categoria', 'precio', 'codigo_barras']);
+
+        return view('cajero-etiquetas', compact('productos'));
     }
 
     // Buscar producto por nombre o código (para el buscador live del cajero)
@@ -128,6 +147,92 @@ class CajeroController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    // Envía la boleta (PDF generado en el navegador) al correo del cliente
+    public function enviarBoleta(Request $request)
+    {
+        if (!in_array(session('rol'), ['admin', 'cajero'])) {
+            return response()->json(['error' => 'No autorizado'], 401);
+        }
+
+        $request->validate([
+            'correo'        => 'required|email',
+            'codigo_pedido' => 'required|string|max:30',
+            'pdf_base64'    => 'required|string',
+        ]);
+
+        try {
+            // El PDF llega como "data:application/pdf;filename=...;base64,XXXXX"
+            $data = $request->pdf_base64;
+            if (str_contains($data, 'base64,')) {
+                $data = substr($data, strpos($data, 'base64,') + 7);
+            }
+
+            $pdfBinario = base64_decode($data);
+
+            if (!$pdfBinario) {
+                return response()->json(['error' => 'No se pudo procesar el PDF'], 400);
+            }
+
+            Mail::to($request->correo)->send(
+                new BoletaMail($request->codigo_pedido, $pdfBinario)
+            );
+
+            return response()->json(['ok' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo enviar el correo: ' . $e->getMessage()], 500);
+        }
+    }
+
+    // Consulta el nombre asociado a un DNI usando la API de apis.net.pe / Decolecta
+    public function buscarDni(Request $request)
+    {
+        if (!in_array(session('rol'), ['admin', 'cajero'])) {
+            return response()->json(['error' => 'No autorizado'], 401);
+        }
+
+        $request->validate([
+            'dni' => 'required|digits:8',
+        ]);
+
+        $token = config('services.decolecta.token');
+
+        if (!$token) {
+            return response()->json(['error' => 'No se configuró el token de consulta DNI (DECOLECTA_TOKEN en .env)'], 500);
+        }
+
+        try {
+            $respuesta = Http::withToken($token)
+                ->timeout(8)
+                ->get('https://api.decolecta.com/v1/reniec/dni', [
+                    'numero' => $request->dni,
+                ]);
+
+            if (!$respuesta->successful()) {
+                return response()->json(['error' => 'No se encontró información para ese DNI'], 404);
+            }
+
+            $data = $respuesta->json();
+
+            // La API puede devolver el nombre ya armado o en partes, según el plan/versión
+            $nombreCompleto = $data['full_name']
+                ?? trim(($data['first_name'] ?? '') . ' ' . ($data['first_last_name'] ?? '') . ' ' . ($data['second_last_name'] ?? ''))
+                ?? null;
+
+            if (!$nombreCompleto) {
+                return response()->json(['error' => 'La API no devolvió un nombre para ese DNI'], 404);
+            }
+
+            return response()->json([
+                'ok'     => true,
+                'nombre' => $nombreCompleto,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al consultar el DNI: ' . $e->getMessage()], 500);
         }
     }
 }
